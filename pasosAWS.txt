@@ -1,0 +1,31 @@
+1. sudo apt update
+
+2. sudo apt install git
+
+3. sudo apt install npm
+
+4. sudo apt install curl 
+
+-> para instalar nvm y usar node y npm actualizados
+
+5. sudo curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
+
+-> reiniciar la consola para que se efectuen los cambios
+
+6. sudo nvm install 16.14.0
+
+7. sudo git clone https://github.com/marcosraimondi1/appPlatform.git webapp
+
+8. cd webapp/frontend
+
+9. npm build
+
+10. mv build ../backend/ -> move build to backend 
+
+13. configurar archivo .env
+
+-> ruta de acceso a archivo ffmpeg y ruta de guardado de archivos
+
+14. npm run devn
+
+15. npm run dev
