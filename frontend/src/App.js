@@ -6,7 +6,7 @@ import Login from "./pages/Apps/Spotify/Login/Login.jsx";
 import Instagram from "./pages/Apps/Instagram/Instagram.jsx";
 
 global.BASE_API_URL = process.env.REACT_APP_API_BASE_URL;
-global.SPOTIFY_LOGIN = process.env.REACT_APP_SPOTIFY_LOGIN;
+
 function App() {
   return (
     <BrowserRouter>
