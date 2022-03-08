@@ -13,6 +13,8 @@ const savePath = path.resolve(__dirname, "./../../../../playlists"); // for linu
  * @returns {Promise<{ paths: Array<{ name: string, path: string }>, save_path: string}>} - returns array with path to files and the directory where playlist was saved
  */
 async function convert_playlist(songs, playlist_name) {
+  const TOTAL = songs.length;
+
   // directory cant contain illegal characters
   let save_path = `${savePath}\\${playlist_name.replace(/\W/g, " ")}`;
 
@@ -24,7 +26,7 @@ async function convert_playlist(songs, playlist_name) {
   // creates Download function
   const YD = await youtubeMp3Converter(save_path);
 
-  const arrays = divide_in_smaller_arrays(songs);
+  const arrays = divide_in_smaller_arrays(songs, 5);
 
   let paths = [];
 
@@ -39,6 +41,7 @@ async function convert_playlist(songs, playlist_name) {
     // esperar que se descarguen
     new_paths = await Promise.all(new_paths);
     paths = paths.concat(new_paths.filter((new_path) => new_path.path)); // guardamos los elementos que se guardaron efectivamente
+    console.log(`Progress: ${paths.length} / ${TOTAL}`);
   }
 
   return { paths, save_path };
@@ -69,10 +72,10 @@ async function youtube_to_mp3(YD, videoId, title) {
 /**
  * Divides array in smaller arrays
  * @param {Array<>} array - array to divide
+ * @param {number} N - number of elements per array
  * @returns {Array<Array<>>}
  */
-function divide_in_smaller_arrays(array) {
-  const N = 5;
+function divide_in_smaller_arrays(array, N) {
   return new Array(Math.ceil(array.length / N))
     .fill()
     .map((_) => array.splice(0, N));
