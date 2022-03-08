@@ -91,7 +91,7 @@ router.get("/callback", async (req, res) => {
         let link = "http://localhost:3000/spotify/";
 
         if (process.env.NODE_ENV === "production")
-          link = process.env.BASE_URL + "/spotify";
+          link = process.env.BASE_URL + "/spotify/";
 
         return res.redirect(link + username);
       }
@@ -272,7 +272,7 @@ function getUserData(username) {
 function saveUserData(username, data) {
   fs.writeFileSync(`data/${username}.txt`, JSON.stringify(data), (err) => {
     if (err) {
-      console.error(err);
+      console.error("Error saving data: ", err);
       return;
     }
   });
