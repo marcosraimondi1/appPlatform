@@ -1,0 +1,13 @@
+version: '3'
+
+# in production, frontend is served from the node image
+services:
+  backend:
+    env_file:
+        "./.env"
+    build:
+      context: ./backend
+      dockerfile: ./Dockerfile
+    image: "marcosraimondi1/multiapp-backend"
+    ports:
+      - "5000:5000"

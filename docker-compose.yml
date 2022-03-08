@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  backend:
+    env_file:
+        "./backend/.env"
+    build:
+      context: ./backend
+      dockerfile: ./Dockerfile
+    image: "marcosraimondi1/multiapp-backend"
+    ports:
+      - "5000:5000"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: ./Dockerfile
+    image: "marcosraimondi1/multiapp-frontend"
+    ports:
+      - "3000:3000"
+    links:
+      - "backend"
