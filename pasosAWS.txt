@@ -16,16 +16,10 @@
 
 7. sudo git clone https://github.com/marcosraimondi1/appPlatform.git webapp
 
-8. cd webapp/frontend
+8. cd webapp
 
-9. npm build
-
-10. mv build ../backend/ -> move build to backend 
+9. sudo rm frontend -> delete frontend unnecesary folder
 
 13. configurar archivo .env
 
--> ruta de acceso a archivo ffmpeg y ruta de guardado de archivos
-
-14. npm run devn
-
-15. npm run dev
+14. docker-compose -f docker-compose-prod.yml up
