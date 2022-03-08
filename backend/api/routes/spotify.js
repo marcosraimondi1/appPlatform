@@ -91,7 +91,7 @@ router.get("/callback", async (req, res) => {
         let link = "http://localhost:3000/spotify/";
 
         if (process.env.NODE_ENV === "production")
-          link = "http://localhost:5000/spotify/";
+          link = process.env.BASE_URL + "/spotify";
 
         return res.redirect(link + username);
       }
@@ -104,8 +104,8 @@ router.get("/callback", async (req, res) => {
 
   let link = "http://localhost:3000/spotify/";
   if (process.env.NODE_ENV === "production")
-    link = "http://localhost:5000/spotify/";
-  
+    link = process.env.BASE_URL + "/spotify";
+
   return res.redirect(link);
 });
 
