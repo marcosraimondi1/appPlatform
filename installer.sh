@@ -20,9 +20,14 @@ sudo apt install git
 
 sudo git clone https://github.com/marcosraimondi1/appPlatform.git webserver
 
-cd webserver
 
-sudo rm frontend -> delete frontend unnecesary folder
+# install yarn
+curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+
+sudo apt update && sudo apt install yarn
+
+cd webserver
 
 # configurar archivo .env
 
@@ -51,5 +56,23 @@ BASE_URL=$BASE_URL
 GAPI_KEY=$GAPI_KEY
 REACT_APP_API_BASE_URL=$REACT_APP_API_BASE_URL
 EOM
+
+cat > ./frontend/.env <<- EOM
+REACT_APP_API_BASE_URL=$REACT_APP_API_BASE_URL
+EOM
+
+# install dependencies and build project
+
+cd frontend
+
+sudo yarn install
+
+sudo yarn build
+
+mv build ../backend # move build to backend
+
+cd ..
+
+sudo rm frontend # delete frontend unnecesary folder
 
 sudo docker-compose -f docker-compose-prod.yml up -d
