@@ -20,13 +20,7 @@ sudo rm install_docker.sh # eliminar instalador
 
 sudo apt install git
 
-# install yarn
-curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-
-sudo apt update && sudo apt install --no-install-recommends yarn
-
-# descargar nvm para usar npm y node latest version
+# descargar nvm para usar version actualizada de node y npm
 # https://help.dreamhost.com/hc/es/articles/360029083351-Instalar-una-versión-personalizada-de-NVM-y-Node-js
 
 sudo curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
@@ -49,9 +43,9 @@ echo nvm version:
 nvm --version
 
 # instalamos node, npm
-nvm install 16.14.0
+nvm install 16.13.2
 
-echo node, nvm versions:
+echo npm, node versions:
 npm --version
 node --version
 
@@ -109,7 +103,5 @@ cd ..
 sudo rm ./backend/build -r
 
 sudo mv ./frontend/build ./backend # move build to backend
-
-sudo rm frontend -r # delete frontend unnecesary folder
 
 sudo docker-compose -f docker-compose-prod.yml up -d
