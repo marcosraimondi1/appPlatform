@@ -29,7 +29,7 @@ sudo apt update && sudo apt install --no-install-recommends yarn
 # descargar nvm para usar npm y node latest version
 # https://help.dreamhost.com/hc/es/articles/360029083351-Instalar-una-versión-personalizada-de-NVM-y-Node-js
 
-sudo -o- curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
+sudo curl -o- https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
 
 # actualizar .bashrc
 source .bashrc
