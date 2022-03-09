@@ -100,13 +100,13 @@ EOM
 
 cd frontend
 
-sudo yarn install
+sudo npm install
 
-sudo yarn build
+sudo npm build
 
 cd ..
 
-sudp rm ./backend/build -r
+sudo rm ./backend/build -r
 
 sudo mv ./frontend/build ./backend # move build to backend
 
