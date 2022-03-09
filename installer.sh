@@ -29,26 +29,31 @@ sudo apt update && sudo apt install --no-install-recommends yarn
 # descargar nvm para usar npm y node latest version
 # https://help.dreamhost.com/hc/es/articles/360029083351-Instalar-una-versión-personalizada-de-NVM-y-Node-js
 
-sudo curl -o- https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
+sudo curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
 
-# actualizar .bashrc
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
+
 source .bashrc
 
-# aplicar cambios
-sudo apt install attr 
+setfattr -n user.pax.flags -v "mr" .nvm/nvm.sh
 
-# para que no se bloquee el script
+sudo echo "source ~/.bashrc" >> .profile
 
-setfattr -n user.pax.flags -v "mr" $NVM_DIR/nvm.sh
-
-source ~/.bashrc
 . ~/.profile
+
+source .bashrc
 
 echo nvm version:
 nvm --version
 
 # instalamos node, npm
 nvm install 16.14.0
+
+echo node, nvm versions:
+npm --version
+node --version
 
 
 # C O N F I G U R A C I O N E S __ D E __ P R O Y E C T O (clonar repo, build front, env variables, run docker-compose)
