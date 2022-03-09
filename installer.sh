@@ -18,22 +18,38 @@ sudo rm install_docker.sh # eliminar instalador
 
 sudo apt install git
 
-# > para instalar nvm y usar node y npm actualizados
-
-sudo curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
-
-# reiniciar la consola para que se efectuen los cambios
-
-nvm install 16.14.0
-
-npm install yarn
-
 sudo git clone https://github.com/marcosraimondi1/appPlatform.git webserver
 
 cd webserver
 
 sudo rm frontend -> delete frontend unnecesary folder
 
-configurar archivo .env
+# configurar archivo .env
+
+echo SETTING ENVIRONMENT VARIABLES
+read -p "NODE_ENV= " NODE_ENV
+read -p "PORT= " PORT
+read -p "INSTA_USERNAME= " INSTA_USERNAME
+read -p "INSTA_PASSWORD= " INSTA_PASSWORD
+read -p "SPOT_CLIENT_ID= " SPOT_CLIENT_ID
+read -p "SPOT_CLIENT_SECRET= " SPOT_CLIENT_SECRET
+read -p "SPOT_REDIRECT_URI= " SPOT_REDIRECT_URI
+read -p "BASE_URL= " BASE_URL
+read -p "GAPI_KEY= " GAPI_KEY
+read -p "REACT_APP_API_BASE_URL= " REACT_APP_API_BASE_URL
+echo ALL SET UP
+
+cat << EOF > backend/.env
+NODE_ENV=$(NODE_ENV)
+PORT=$(PORT)
+INSTA_USERNAME=$(INSTA_USERNAME)
+INSTA_PASSWORD=$(INSTA_PASSWORD)
+SPOT_CLIENT_ID=$(SPOT_CLIENT_ID)
+SPOT_CLIENT_SECRET=$(SPOT_CLIENT_SECRET)
+SPOT_REDIRECT_URI=$(SPOT_REDIRECT_URI)
+BASE_URL=$(BASE_URL)
+GAPI_KEY=$(GAPI_KEY)
+REACT_APP_API_BASE_URL=$(REACT_APP_API_BASE_URL)
+EOF
 
 sudo docker-compose -f docker-compose-prod.yml up -d
