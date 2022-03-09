@@ -5,6 +5,7 @@
   "dependencies": {
     "@babel/core": "^7.17.5",
     "@babel/node": "^7.16.8",
+    "archiver": "^5.3.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",

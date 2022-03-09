@@ -1,6 +1,8 @@
 const express = require("express");
+const archiver = require("archiver");
 const zipdir = require("zip-dir");
 const dotenv = require("dotenv");
+const path = require("path");
 dotenv.config();
 
 const fs = require("fs");
@@ -225,14 +227,20 @@ router.get("/downloadSongs", async (req, res) => {
     console.log("comprimiendo");
 
     // Use an `each` option to call a function everytime a file is added, and receives the path
-    let buffer = await zipdir(save_path, {
-      each: (path) => console.log(path, " added!"),
-      function(err, buffer) {
-        console.log(err);
-      },
-    });
+    // let buffer = await zipdir(save_path, {
+    //   each: (path) => console.log(path, " added!"),
+    //   function(err, buffer) {
+    //     console.log(err);
+    //   },
+    // });
 
-    res.send(buffer);
+    // res.send(buffer);
+
+    let zipped_path = path.resolve([save_path, "../zipped.zip"]);
+
+    await zipDirectory(save_path, zipped_path);
+
+    res.sendFile(zipped_path);
 
     console.log("enviado");
 
@@ -240,6 +248,7 @@ router.get("/downloadSongs", async (req, res) => {
       // delete downloaded files after sending them
       console.log("eliminando archivos");
       fs.rmSync(save_path, { recursive: true, force: true });
+      fs.rmSync(zipped_path, { force: true });
     }, 2000);
     return;
   } catch (error) {
@@ -275,5 +284,26 @@ function saveUserData(username, data) {
       console.error("Error saving data: ", err);
       return;
     }
+  });
+}
+
+/**
+ * Create a zip file
+ * @param {String} sourceDir: /some/folder/to/compress
+ * @param {String} outPath: /path/to/created.zip
+ * @returns {Promise}
+ */
+function zipDirectory(sourceDir, outPath) {
+  const archive = archiver("zip", { zlib: { level: 9 } });
+  const stream = fs.createWriteStream(outPath);
+
+  return new Promise((resolve, reject) => {
+    archive
+      .directory(sourceDir, false)
+      .on("error", (err) => reject(err))
+      .pipe(stream);
+
+    stream.on("close", () => resolve());
+    archive.finalize();
   });
 }
