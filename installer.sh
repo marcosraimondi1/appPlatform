@@ -1,31 +1,12 @@
+# LUEGO DE EJECUTAR reqs.sh y REINICIAR CONSOLA
+
 sudo apt update
 
-# > instalar docker
-
-wget https://get.docker.com/    # descargar instalador docker
-
-mv index.html install_docker.sh # cambiar nombre archivo
-
-chmod 777 install_docker.sh  # otorga al archivo acceso total
-
-./install_docker.sh   # ejecutar instalador
-
-sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-
-sudo chmod +x /usr/local/bin/docker-compose
-
-sudo rm install_docker.sh # eliminar instalador
-
-sudo apt install git
+nvm install 16.14.0
 
 sudo git clone https://github.com/marcosraimondi1/appPlatform.git webserver
 
-
-# install yarn
-curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-
-sudo apt update && sudo apt install yarn
+sudo rm -r ./webserver/backend/ffmpeg
 
 cd webserver
 
@@ -69,10 +50,12 @@ sudo yarn install
 
 sudo yarn build
 
-mv build ../backend # move build to backend
-
 cd ..
 
-sudo rm frontend # delete frontend unnecesary folder
+sudp rm ./backend/build -r
+
+sudo mv ./frontend/build ./backend # move build to backend
+
+sudo rm frontend -r # delete frontend unnecesary folder
 
 sudo docker-compose -f docker-compose-prod.yml up -d

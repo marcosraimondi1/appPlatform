@@ -80,7 +80,7 @@ export const downloadPlaylistSongs = async (params) => {
         "Content-Type": "application/octet-stream",
       },
     });
-
+    console.log("RESPONSE TYPE: ", res.type);
     if (res.status === 200) {
       let data = await res.blob();
       fileDownload(data, "playlist.zip");
