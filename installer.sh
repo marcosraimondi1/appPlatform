@@ -20,36 +20,26 @@ sudo rm install_docker.sh # eliminar instalador
 
 sudo apt install git
 
-sudo apt-get install npm
+# instalamos node y npm
 
-# descargar nvm para usar version actualizada de node y npm
-# https://help.dreamhost.com/hc/es/articles/360029083351-Instalar-una-versión-personalizada-de-NVM-y-Node-js
+wget https://nodejs.org/dist/v16.14.0/node-v16.14.0-linux-x64.tar.xz
 
-sudo curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+sudo apt update
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
+sudo apt install xz-utils
 
-source .bashrc
+sudo tar -xvf node-v16.14.0-linux-x64.tar.xz # extract tar file
 
-setfattr -n user.pax.flags -v "mr" .nvm/nvm.sh
+sudo rm node-v16.14.0-linux-x64.tar.xz # remove tar file
 
-sudo echo "source ~/.bashrc" >> .profile
+sudo cp -r node-v16.14.0-linux-x64/{bin,include,lib,share} /usr/
 
-. ~/.profile
+sudo rm node-v16.14.0-linux-x64
 
-source .bashrc
-
-echo nvm version:
-nvm --version
-
-# instalamos node, npm
-nvm install 16.13.2
-
-echo npm, node versions:
-npm --version
-node --version
+echo -------------------------- versions ------------------------------------
+sudo node -v
+sudo npm -v
+echo -------------------------- versions ------------------------------------
 
 
 # C O N F I G U R A C I O N E S __ D E __ P R O Y E C T O (clonar repo, build front, env variables, run docker-compose)
@@ -71,8 +61,8 @@ read -p "SPOT_CLIENT_ID= " SPOT_CLIENT_ID
 read -p "SPOT_CLIENT_SECRET= " SPOT_CLIENT_SECRET
 read -p "SPOT_REDIRECT_URI= " SPOT_REDIRECT_URI
 read -p "BASE_URL= " BASE_URL
-read -p "GAPI_KEY= " GAPI_KEY
 read -p "REACT_APP_API_BASE_URL= " REACT_APP_API_BASE_URL
+read -p "GAPI_KEY= " GAPI_KEY
 echo ALL SET UP
 
 cat > ./backend/.env <<- EOM
@@ -105,5 +95,7 @@ cd ..
 sudo rm ./backend/build -r
 
 sudo mv ./frontend/build ./backend # move build to backend
+
+echo -------------------------- starting docker -------------------------------------
 
 sudo docker-compose -f docker-compose-prod.yml up -d
