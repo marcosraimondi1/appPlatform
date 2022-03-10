@@ -20,6 +20,8 @@ sudo rm install_docker.sh # eliminar instalador
 
 sudo apt install git
 
+sudo apt-get install npm
+
 # descargar nvm para usar version actualizada de node y npm
 # https://help.dreamhost.com/hc/es/articles/360029083351-Instalar-una-versión-personalizada-de-NVM-y-Node-js
 
@@ -96,7 +98,7 @@ cd frontend
 
 sudo npm install
 
-sudo npm build
+sudo npm run build
 
 cd ..
 
