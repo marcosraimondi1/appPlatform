@@ -1,5 +1,3 @@
-const fileDownload = require("js-file-download");
-
 export const fetchPlaylists = async (params) => {
   const API_BASE_URL = global.BASE_API_URL;
   try {
