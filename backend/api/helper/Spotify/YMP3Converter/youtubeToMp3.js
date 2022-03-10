@@ -2,9 +2,9 @@ const youtubeMp3Converter = require("youtube-mp3-converter");
 const fs = require("fs");
 const path = require("path");
 
-// const savePath = path.resolve(__dirname, "./../../../../playlists"); // for linux
+const savePath = path.resolve(__dirname, "./../../../../playlists"); // for linux
 
-const savePath = "C:\\Users\\marco\\Songs"; // for windows
+// const savePath = "C:\\Users\\marco\\Songs"; // for windows
 
 /**
  * Downloads Many Youtube Audios
