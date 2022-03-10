@@ -45,7 +45,7 @@ RUN apt install ffmpeg -y
 
 # instalamos las dependencias
 COPY package.json ./
-COPY yarn.lock ./
+COPY package-lock.json ./
 
 RUN yarn
 
