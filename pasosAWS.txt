@@ -1,3 +1,4 @@
 1. Copiar bash script installer.sh en la consola
 2. Ejecutar installer.sh: sudo bash installer.sh
-    - Completar el prompt de las variables de entorno 
+    - Completar el prompt de las variables de entorno
+3. Se levantara la pagina web en: http:host_ip:80
