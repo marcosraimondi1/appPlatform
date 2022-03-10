@@ -34,7 +34,7 @@ sudo rm node-v16.14.0-linux-x64.tar.xz # remove tar file
 
 sudo cp -r node-v16.14.0-linux-x64/{bin,include,lib,share} /usr/
 
-sudo rm node-v16.14.0-linux-x64
+sudo rm -r node-v16.14.0-linux-x64
 
 echo -------------------------- versions ------------------------------------
 sudo node -v
