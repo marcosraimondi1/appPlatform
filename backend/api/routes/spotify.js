@@ -1,6 +1,4 @@
 const express = require("express");
-const archiver = require("archiver");
-const zipdir = require("zip-dir");
 const dotenv = require("dotenv");
 const path = require("path");
 dotenv.config();
@@ -20,10 +18,15 @@ const convert_playlist = require("../helper/Spotify/YMP3Converter/youtubeToMp3.j
 const {
   getSongsYoutubeVideoIds,
 } = require("../helper/Spotify/youtubeApi/fetchApi.js");
+const {
+  saveUserData,
+  getUserData,
+  zipDirectory,
+} = require("../helper/Spotify/utils");
 
 const client_id = process.env.SPOT_CLIENT_ID;
 const redirect_uri = process.env.SPOT_REDIRECT_URI;
-
+const base_url = process.env.BASE_URL; // ej: http://localhost:5000
 const router = express.Router();
 
 /**
@@ -93,7 +96,7 @@ router.get("/callback", async (req, res) => {
         let link = "http://localhost:3000/spotify/";
 
         if (process.env.NODE_ENV === "production")
-          link = process.env.BASE_URL + "/spotify/";
+          link = base_url + "/spotify/";
 
         return res.redirect(link + username);
       }
@@ -105,8 +108,7 @@ router.get("/callback", async (req, res) => {
   console.log("algo salio mal aca");
 
   let link = "http://localhost:3000/spotify/";
-  if (process.env.NODE_ENV === "production")
-    link = process.env.BASE_URL + "/spotify";
+  if (process.env.NODE_ENV === "production") link = base_url + "/spotify";
 
   return res.redirect(link);
 });
@@ -226,30 +228,25 @@ router.get("/downloadSongs", async (req, res) => {
     // send files
     console.log("comprimiendo");
 
-    // Use an `each` option to call a function everytime a file is added, and receives the path
-    // let buffer = await zipdir(save_path, {
-    //   each: (path) => console.log(path, " added!"),
-    //   function(err, buffer) {
-    //     console.log(err);
-    //   },
-    // });
-
-    // res.send(buffer);
-
-    let zipped_path = path.resolve(save_path, "../zipped.zip");
+    let zip_name = playlist_name.replace(/\W/g, "_");
+    let zipped_path = path.resolve(save_path, `../${zip_name}.zip`);
 
     await zipDirectory(save_path, zipped_path);
 
-    res.sendFile(zipped_path);
+    console.log("comprimido");
 
-    console.log("enviado");
+    // redirect to download route
+
+    // get redirect link
+    link = base_url + `/api/downloadzip?zipped_path=${zipped_path}`;
+    res.json({ status: "success", link });
 
     setTimeout(() => {
-      // delete downloaded files after sending them
+      // delete downloaded songs after compressing them
       console.log("eliminando archivos");
       fs.rmSync(save_path, { recursive: true, force: true });
-      fs.rmSync(zipped_path, { force: true });
-    }, 2000);
+    }, 500);
+
     return;
   } catch (error) {
     console.log("Error: ", error);
@@ -257,53 +254,24 @@ router.get("/downloadSongs", async (req, res) => {
   }
 });
 
-module.exports = router;
-
-/**
- * FUNCTIONS __________________________________
- */
-
-/**
- * Gets Saved Users Data
- * @param {string} username
- * @returns {object}
- */
-function getUserData(username) {
+router.get("/downloadzip", async (req, res) => {
   try {
-    let data = fs.readFileSync(`data/${username}.txt`, "utf8");
-    data = JSON.parse(data);
-    return data;
-  } catch (err) {
-    return null;
+    // download file
+
+    const zipped_path = req.query.zipped_path;
+
+    res.download(zipped_path);
+    setTimeout(() => {
+      // delete zipped file after downloading it
+      console.log("eliminando archivos");
+      fs.rmSync(zipped_path, { recursive: true, force: true });
+    }, 60000);
+
+    return;
+  } catch (error) {
+    console.log("Error downloading zip: ", error);
+    return res.status(500).json({ error: "failed to download file" });
   }
-}
+});
 
-function saveUserData(username, data) {
-  fs.writeFileSync(`data/${username}.txt`, JSON.stringify(data), (err) => {
-    if (err) {
-      console.error("Error saving data: ", err);
-      return;
-    }
-  });
-}
-
-/**
- * Create a zip file
- * @param {String} sourceDir: /some/folder/to/compress
- * @param {String} outPath: /path/to/created.zip
- * @returns {Promise}
- */
-function zipDirectory(sourceDir, outPath) {
-  const archive = archiver("zip", { zlib: { level: 9 } });
-  const stream = fs.createWriteStream(outPath);
-
-  return new Promise((resolve, reject) => {
-    archive
-      .directory(sourceDir, false)
-      .on("error", (err) => reject(err))
-      .pipe(stream);
-
-    stream.on("close", () => resolve());
-    archive.finalize();
-  });
-}
+module.exports = router;

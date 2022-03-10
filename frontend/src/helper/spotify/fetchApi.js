@@ -76,14 +76,18 @@ export const downloadPlaylistSongs = async (params) => {
       method: "GET",
       mode: "cors",
       headers: {
-        "Content-Disposition": "attachment;filename=playlist.zip",
-        "Content-Type": "application/octet-stream",
+        "Content-Type": "application/json",
       },
     });
     console.log("RESPONSE TYPE: ", res.type);
     if (res.status === 200) {
-      let data = await res.blob();
-      fileDownload(data, "playlist.zip");
+      let json = await res.json();
+      console.log(json);
+      if (json.status === "success") {
+        window.open(json.link, "_blank");
+      } else {
+        alert(json.status);
+      }
       return;
     }
     if (res.status === 400) {
