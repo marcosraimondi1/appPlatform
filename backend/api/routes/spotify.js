@@ -236,7 +236,7 @@ router.get("/downloadSongs", async (req, res) => {
 
     // res.send(buffer);
 
-    let zipped_path = path.resolve([save_path, "../zipped.zip"]);
+    let zipped_path = path.resolve(save_path, "../zipped.zip");
 
     await zipDirectory(save_path, zipped_path);
 
