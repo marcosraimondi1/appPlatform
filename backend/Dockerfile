@@ -47,7 +47,7 @@ RUN apt install ffmpeg -y
 COPY package.json ./
 COPY package-lock.json ./
 
-RUN yarn
+RUN npm install
 
 # make Puppeteer’s bundled Chromium binary properly executable
 RUN chmod -R o+rwx ./node_modules/puppeteer/.local-chromium
@@ -60,7 +60,7 @@ ENV PORT = 5000
 EXPOSE 5000
 
 # corremos la aplicacion
-CMD ["yarn", "start"]
+CMD ["npm", "run", "start"]
 
 
 

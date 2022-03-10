@@ -8,7 +8,7 @@ WORKDIR /frontend
 COPY package.json ./
 COPY package-lock.json ./
 
-RUN yarn
+RUN npm install
 
 # copiamos archivos exceptos los del .dockerignore
 COPY . .
@@ -18,7 +18,7 @@ ENV PORT = 3000
 EXPOSE 3000
 
 # corremos la aplicacion
-CMD ["yarn", "start"]
+CMD ["npm", "run", "start"]
 
 
 
