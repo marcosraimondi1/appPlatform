@@ -1,14 +1,12 @@
 import React, { useState } from "react";
 
-import { fetchData } from "../../../helper/requestFunctions";
+import { fetchData } from "../../../helper/instagram/fetchApi.js";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ReactJson from "react-json-view";
 
 import Header from "../../../components/Header/Header";
 import Footer from "../../../components/Footer/Footer";
-
-const ENDPOINT = "/instagram";
 
 export default function Instagram() {
   const [username, setUsername] = useState("");
@@ -18,7 +16,7 @@ export default function Instagram() {
   const submit = async () => {
     if (data) setData({});
     setLoading(true);
-    let new_data = await fetchData({ endpoint: ENDPOINT, username });
+    let new_data = await fetchData({ username });
     setData(new_data);
     setUsername("");
     setLoading(false);
@@ -34,6 +32,7 @@ export default function Instagram() {
         <div style={{ margin: "10px" }}>
           <input
             style={{ marginRight: "10px" }}
+            value={username}
             onChange={(txt) => setUsername(txt.target.value)}
           />
           <button className="btn btn-primary" onClick={submit}>
