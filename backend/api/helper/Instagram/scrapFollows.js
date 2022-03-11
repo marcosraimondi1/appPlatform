@@ -16,9 +16,19 @@ const ADMIN_PASS = process.env.INSTA_PASSWORD;
  * 	@returns {Promise<{status: "error/success", data?: {process_data}, error?}>}
  */
 const scrapFollows = async (username) => {
-  const browser = await puppeteer.launch({ headless: true });
+  console.log("Username " + username);
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: [
+      "--disable-gpu",
+      "--disable-dev-shm-usage",
+      "--disable-setuid-sandbox",
+      "--no-sandbox",
+    ],
+  });
 
   const page = await browser.newPage();
+  const page2 = await browser.newPage();
 
   let res = await instagram_login(page);
 
@@ -39,19 +49,22 @@ const instagram_login = async (page) => {
   console.log("LOGGING IN");
 
   try {
-    await page.goto("https://www.instagram.com/accounts/login/");
-
-    await page.waitForTimeout(2000);
-
+    await page.goto("https://www.instagram.com/accounts/login/", {
+      waitUntil: "domcontentloaded",
+    });
+    await page.waitForSelector("[name=username]");
     // Completar formulario
     await page.type("[name=username]", ADMIN_USER);
+
+    await page.waitForSelector("[name=password]");
 
     await page.type("[name=password]", ADMIN_PASS);
 
     // Send form
+    await page.waitForSelector("[type=submit]");
     await page.click("[type=submit]");
 
-    await page.waitForTimeout(500);
+    await page.waitForTimeout(1000);
 
     // Check for error messages
     const error_message = await page.evaluate(() => {
@@ -63,13 +76,12 @@ const instagram_login = async (page) => {
     });
 
     if (error_message) {
-      page.screenshot({ path: "screens/errorlogging.png" });
       return { status: "error", error: error_message };
     }
 
-    await page.waitForTimeout(1000);
-
     console.log("LOGGED");
+
+    await page.waitForTimeout(1500);
 
     return { status: "success" };
   } catch (error) {
@@ -85,17 +97,17 @@ const instagram_login = async (page) => {
  * 	@returns {Promise<{status: "error/success", error?, data?: {followers,following}}>}
  */
 const instagram_scrap_profile = async (page, username) => {
+  console.log("Scraping for: ", username);
   try {
-    await page.waitForTimeout(1500);
-    await page.screenshot({ path: "screens/logged.png" });
-    await page.goto(`https://www.instagram.com/${username}/`);
-
-    await page.waitForTimeout(2000);
-    await page.screenshot({ path: "screens/profile.png" });
+    await page.goto(`https://www.instagram.com/${username}/`, {
+      waitUntil: "domcontentloaded",
+    });
 
     const followers = await instagram_scrap_follows(page, "followers");
 
-    await page.waitForTimeout(2000);
+    await page.goto(`https://www.instagram.com/${username}/`, {
+      waitUntil: "domcontentloaded",
+    });
 
     const following = await instagram_scrap_follows(page, "following");
 
@@ -115,32 +127,49 @@ const instagram_scrap_profile = async (page, username) => {
  * 	@returns {Promise<Array<object>>}
  */
 const instagram_scrap_follows = async (page, target) => {
+  page.waitForTimeout(1500);
   let followers = [];
+  page.screenshot({ path: `screens/${target}1.png` });
 
   let link_number = 2;
 
   if (target == "following") link_number = 3;
 
   try {
-    // obtener cantidad de follows
-    let elemento = await page.$x(
-      `/html/body/div[1]/section/main/div/header/section/ul/li[${link_number}]/a/div/span`
-    );
+    // obtener cantidad de follows del link para abrir el popup
+    let cantidad_selector = `#react-root > section > main > div > header > section > ul > li:nth-child(${link_number}) > a > div > span`;
 
-    elemento = elemento[0];
+    try {
+      await page.waitForSelector(cantidad_selector);
+    } catch (error) {}
+
+    await page.waitForTimeout(1000);
+
+    page.screenshot({ path: `screens/${target}2.png` });
+
+    let elemento = await page.$(cantidad_selector);
 
     const cantidad = await page.evaluate((e) => {
-      e.click();
+      // Open Popup
       return parseInt(e.innerHTML);
     }, elemento);
 
+    const link_selector = `#react-root > section > main > div > header > section > ul > li:nth-child(${link_number}) > a`;
+
+    try {
+      await page.waitForSelector(link_selector);
+      await page.click(link_selector);
+    } catch (error) {}
+
     console.log("Follows: " + cantidad);
 
-    // Open Popup
-    await page.waitForTimeout(1500);
+    page.screenshot({ path: `screens/${target}3.png` });
 
     const selector =
       "a.notranslate._0imsa > span._7UhW9.xLCgt.qyrsm.KV-D4.se6yk.T0kll"; // selector para los elementos de la lista
+
+    await page.waitForTimeout(1500);
+    page.screenshot({ path: `screens/${target}11.png` });
 
     let items = [];
     let ti = Date.now();
@@ -166,7 +195,6 @@ const instagram_scrap_follows = async (page, target) => {
           document.getElementsByClassName("isgrP")[0].scrollTop = 9999999;
         });
       } catch (error) {
-        await page.screenshot({ path: `screens/scrolling/scrollerror.png` });
         console.log(error);
         break;
       }
@@ -180,21 +208,24 @@ const instagram_scrap_follows = async (page, target) => {
     }
 
     // Close Pop Up
-    const xpath = "/html/body/div[6]/div/div/div/div[1]/div/div[2]/button";
+    const close_selector =
+      "body > div.RnEpo.Yx5HN > div > div > div > div:nth-child(1) > div > div:nth-child(3) > button";
     try {
-      let button = await page.$x(xpath);
-      button[0].click();
+      await page.click(close_selector);
     } catch (error) {
       // refresh page
       await page.reload();
+      await page.waitForTimeout(1000);
       console.log("error closing, refreshing page");
     }
 
     console.log(`--------- Scraped ${followers.length} Elements ---------`);
+
+    await page.waitForTimeout(1000);
   } catch (error) {
     console.log(error);
   }
-
+  await page.waitForTimeout(1000);
   return followers;
 };
 /**
