@@ -1,3 +1,6 @@
+import { useState } from "react";
+import { fetchData } from "../../../helper/instagram/fetchApi.js";
+
 export const useInstagram = () => {
   const [username, setUsername] = useState("");
   const [data, setData] = useState({});

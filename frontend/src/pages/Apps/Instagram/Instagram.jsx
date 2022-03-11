@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 
-import { fetchData } from "../../../helper/instagram/fetchApi.js";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ReactJson from "react-json-view";
