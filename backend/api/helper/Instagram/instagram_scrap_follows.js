@@ -5,7 +5,6 @@
  * 	@returns {Promise<Array<object>>}
  */
 const instagram_scrap_follows = async (page, target) => {
-  
   await page.waitForTimeout(1500);
 
   let followers = [];
@@ -20,7 +19,8 @@ const instagram_scrap_follows = async (page, target) => {
       await page.screenshot({ path: "screens/failedToOpen" + target + ".png" });
       return [];
     }
-    console.log("Follows: " + cantidad);
+
+    console.log("-----> Follows: " + cantidad);
 
     // open pop up
     if (!(await openPopUp(link_number, page))) {
@@ -32,15 +32,11 @@ const instagram_scrap_follows = async (page, target) => {
     const items = await scrapNames(page);
 
     // extract text from elementHandle items
-    for (let i = 0; i < items.length; i++) {
-      followers.push(
-        await items[i].evaluate(async (node) => await node.innerHTML)
-      );
-    }
+    followers = extractInnerHtml(items);
 
     console.log(`--------- Scraped ${followers.length} Elements ---------`);
 
-    await page.waitForTimeout(1000);
+    await page.reload();
   } catch (error) {
     console.log(error);
   }
@@ -53,6 +49,14 @@ const instagram_scrap_follows = async (page, target) => {
  * ------------- F U N C T I O N S ---------------
  *
  */
+
+const extractInnerHtml = async (items) => {
+  for (let i = 0; i < items.length; i++) {
+    followers.push(
+      await items[i].evaluate(async (node) => await node.innerHTML)
+    );
+  }
+};
 
 const scrapNames = async (page) => {
   const selector =
