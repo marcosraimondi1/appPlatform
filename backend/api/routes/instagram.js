@@ -6,6 +6,8 @@ const router = express.Router();
 router.get("/instagram", async (req, res) => {
   try {
     const { username } = req.query;
+    
+    if (!username) return res.status(404).json({ error: "not found" });
 
     const toSend = await scrapFollows(username);
 
