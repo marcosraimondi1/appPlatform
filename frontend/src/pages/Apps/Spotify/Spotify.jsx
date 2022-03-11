@@ -52,7 +52,7 @@ export default function Spotify() {
         ) : (
           <>
             <div
-              hidden={data.length === 0}
+              hidden={data.length === 0 || downloadLink !== ""}
               style={{
                 display: "flex",
                 flexDirection: "row",

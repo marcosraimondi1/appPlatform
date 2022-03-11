@@ -23,6 +23,7 @@ const {
   getUserData,
   zipDirectory,
 } = require("../helper/Spotify/utils");
+const { link } = require("fs/promises");
 
 const client_id = process.env.SPOT_CLIENT_ID;
 const redirect_uri = process.env.SPOT_REDIRECT_URI;
@@ -224,7 +225,6 @@ router.get("/downloadSongs", async (req, res) => {
     // await download
     let { paths, save_path } = await convert_playlist(videoIds, playlist_name);
 
-    if (paths.length === 0) throw "failed to download any songs";
     // send files
     console.log("comprimiendo");
 
@@ -239,13 +239,15 @@ router.get("/downloadSongs", async (req, res) => {
 
     // get redirect link
     link = base_url + `/api/downloadzip?zipped_path=${zipped_path}`;
+    console.log(link);
+
     res.json({ status: "success", link });
 
-    setTimeout(() => {
+    res.on("close", () => {
       // delete downloaded songs after compressing them
       console.log("eliminando archivos");
       fs.rmSync(save_path, { recursive: true, force: true });
-    }, 2000);
+    });
 
     return;
   } catch (error) {
