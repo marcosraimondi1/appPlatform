@@ -16,11 +16,13 @@ export default function Spotify() {
     username,
     data,
     songs,
-    selectedPlaylist,
-    setSelectedPlaylist,
     loading,
     submit,
+    downloadLink,
+    downloadZip,
     downloadPlaylist,
+    selectedPlaylist,
+    setSelectedPlaylist,
   } = useSpotify();
 
   return (
@@ -84,6 +86,20 @@ export default function Spotify() {
               </Button>
             </div>
           </>
+        )}
+        {!loading && downloadLink != "" ? (
+          <>
+            <Button
+              style={{ margin: "5px" }}
+              variant="contained"
+              size="small"
+              onClick={downloadZip}
+            >
+              Get Playlist
+            </Button>
+          </>
+        ) : (
+          <></>
         )}
         <div
           hidden={Object.values(songs).length === 0}

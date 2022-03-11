@@ -8,6 +8,7 @@ import {
 
 export const useSpotify = () => {
   const [username, setUsername] = useState("");
+  const [downloadLink, setDownloadLink] = useState("");
   const [data, setData] = useState([]);
   const [songs, setSongs] = useState({});
   const [selectedPlaylist, setSelectedPlaylist] = useState();
@@ -51,18 +52,25 @@ export const useSpotify = () => {
     });
     if (res && res.link) {
       // open download tab
-      window.open(res.link, "_blank");
+      setDownloadLink(res.link);
     }
     setLoading(false);
   };
 
+  const downloadZip = () => {
+    window.open(downloadLink, "_blank");
+    setDownloadLink("");
+    return;
+  };
+
   return {
     username,
-    setUsername,
     data,
     songs,
     loading,
     submit,
+    downloadLink,
+    downloadZip,
     downloadPlaylist,
     selectedPlaylist,
     setSelectedPlaylist,
