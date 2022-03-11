@@ -49,7 +49,7 @@ export const useSpotify = () => {
       playlist_id: selectedPlaylist.id,
       redirect_login,
     });
-    if (res.link) {
+    if (res && res.link) {
       // open download tab
       window.open(res.link, "_blank");
     }
