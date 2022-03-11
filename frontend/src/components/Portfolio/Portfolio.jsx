@@ -12,7 +12,7 @@ export default function Portfolio(props) {
           </div>
           <div className="row gx-0">
             <Item
-              href="/instagram"
+              href="#instagram"
               caption_title="Instagram"
               caption_description="Instagram Scraper"
               img_source="assets/img/portfolio/instagram.jpg"
@@ -23,19 +23,19 @@ export default function Portfolio(props) {
               caption_description="Spotify Playlist Download"
               img_source="assets/img/portfolio/spotify.jpg"
             />
-            {/* <Item
+            <Item
               href="http://agro-crm-project.herokuapp.com"
               caption_title="Agro CRM"
               caption_description="A Customer Relationship Management app!"
-              img_source="assets/img/portfolio/agro-project.jpg"
+              img_source="assets/img/portfolio/crm_img.jpg"
             />
-            
+
             <Item
               href="http://turnosyagenda.herokuapp.com"
-              caption_title="Turnero" 
+              caption_title="Turnero"
               caption_description="Booking services made easy!"
-              img_source="assets/img/portfolio/turnero.jpg"
-            />            */}
+              img_source="assets/img/portfolio/turnero_img.jpg"
+            />
           </div>
         </div>
       </section>

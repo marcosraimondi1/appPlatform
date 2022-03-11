@@ -8,11 +8,11 @@ export default function Footer() {
             <li className="list-inline-item">
               <a
                 className="social-link rounded-circle text-white mr-3"
-                href="mailto:marcosraimondi1@gmail.com?Subject=Something."
+                href="https://marcosraimondi1.github.io"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <i className="icon-envelope"></i>
+                <i className="icon-globe"></i>
               </a>
             </li>
             <li className="list-inline-item">
