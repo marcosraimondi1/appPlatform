@@ -8,19 +8,11 @@ import ReactJson from "react-json-view";
 import Header from "../../../components/Header/Header";
 import Footer from "../../../components/Footer/Footer";
 
-export default function Instagram() {
-  const [username, setUsername] = useState("");
-  const [data, setData] = useState({});
-  const [loading, setLoading] = useState(false);
+import {useInstagram} from "./instagramLogic.js"
 
-  const submit = async () => {
-    if (data) setData({});
-    setLoading(true);
-    let new_data = await fetchData({ username });
-    setData(new_data);
-    setUsername("");
-    setLoading(false);
-  };
+export default function Instagram() {
+  
+  const { username, data, loading, setUsername, submit } = useInstagram();
 
   return (
     <>

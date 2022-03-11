@@ -12,7 +12,7 @@ export default function Portfolio(props) {
           </div>
           <div className="row gx-0">
             <Item
-              href="#instagram"
+              href="/instagram"
               caption_title="Instagram"
               caption_description="Instagram Scraper"
               img_source="assets/img/portfolio/instagram.jpg"
