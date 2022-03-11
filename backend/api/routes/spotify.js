@@ -245,7 +245,7 @@ router.get("/downloadSongs", async (req, res) => {
       // delete downloaded songs after compressing them
       console.log("eliminando archivos");
       fs.rmSync(save_path, { recursive: true, force: true });
-    }, 500);
+    }, 20000);
 
     return;
   } catch (error) {
@@ -260,12 +260,14 @@ router.get("/downloadzip", async (req, res) => {
 
     const zipped_path = req.query.zipped_path;
 
-    res.download(zipped_path);
-    setTimeout(() => {
-      // delete zipped file after downloading it
-      console.log("eliminando archivos");
+    res.download(zipped_path, (err) => {
+      if (err) {
+        console.log("failed to download: " + zipped_path, "\nError: ", err);
+      } else {
+        console.log("file downloaded");
+      }
       fs.rmSync(zipped_path, { recursive: true, force: true });
-    }, 60000);
+    });
 
     return;
   } catch (error) {
