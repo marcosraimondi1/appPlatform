@@ -245,7 +245,7 @@ router.get("/downloadSongs", async (req, res) => {
       // delete downloaded songs after compressing them
       console.log("eliminando archivos");
       fs.rmSync(save_path, { recursive: true, force: true });
-    }, 20000);
+    }, 2000);
 
     return;
   } catch (error) {
