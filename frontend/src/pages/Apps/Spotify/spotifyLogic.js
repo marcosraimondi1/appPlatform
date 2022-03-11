@@ -16,7 +16,7 @@ export const useSpotify = () => {
   let urlParams = useParams();
   let navigate = useNavigate();
   const redirect_login = () => navigate("../spotify", { replace: true });
-  
+
   // load username from params
   useEffect(() => {
     setUsername(urlParams.username);
@@ -44,11 +44,15 @@ export const useSpotify = () => {
         redirect_login,
       })
     );
-    await downloadPlaylistSongs({
+    let res = await downloadPlaylistSongs({
       username,
       playlist_id: selectedPlaylist.id,
       redirect_login,
     });
+    if (res.link) {
+      // open download tab
+      window.open(res.link, "_blank");
+    }
     setLoading(false);
   };
 

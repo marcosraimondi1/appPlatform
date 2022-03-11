@@ -77,12 +77,10 @@ export const downloadPlaylistSongs = async (params) => {
         "Content-Type": "application/json",
       },
     });
-    console.log("RESPONSE TYPE: ", res.type);
     if (res.status === 200) {
       let json = await res.json();
-      console.log(json);
       if (json.status === "success") {
-        window.open(json.link, "_blank");
+        return { link: json.link };
       } else {
         alert(json.status);
       }
