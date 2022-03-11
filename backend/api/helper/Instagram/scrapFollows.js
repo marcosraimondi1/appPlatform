@@ -6,10 +6,8 @@ const { process_data } = require("./process_data");
 
 dotenv.config();
 
-const ADMIN_USER = process.env.INSTA_USERNAME;
-exports.ADMIN_USER = ADMIN_USER;
-const ADMIN_PASS = process.env.INSTA_PASSWORD;
-exports.ADMIN_PASS = ADMIN_PASS;
+
+
 
 /**
  * ---------- FUNCTIONS -----------

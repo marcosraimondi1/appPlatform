@@ -29,14 +29,12 @@ const instagram_scrap_follows = async (page, target) => {
       return [];
     }
 
-    const items = await scrapNames(page);
+    const items = await scrapNames(page, cantidad);
 
     // extract text from elementHandle items
-    followers = extractInnerHtml(items);
+    followers = await extractInnerHtml(items);
 
     console.log(`--------- Scraped ${followers.length} Elements ---------`);
-
-    await page.reload();
   } catch (error) {
     console.log(error);
   }
@@ -51,14 +49,14 @@ const instagram_scrap_follows = async (page, target) => {
  */
 
 const extractInnerHtml = async (items) => {
+  let follows = [];
   for (let i = 0; i < items.length; i++) {
-    followers.push(
-      await items[i].evaluate(async (node) => await node.innerHTML)
-    );
+    follows.push(await items[i].evaluate(async (node) => await node.innerHTML));
   }
+  return follows;
 };
 
-const scrapNames = async (page) => {
+const scrapNames = async (page, cantidad) => {
   const selector =
     "a.notranslate._0imsa > span._7UhW9.xLCgt.qyrsm.KV-D4.se6yk.T0kll"; // selector para los elementos de la lista
 
@@ -78,6 +76,8 @@ const scrapNames = async (page) => {
 
     // si no hay cambios no actualiza el tiempo y se detendra el loop a los 15 seg
     if (items.length === prev_len) continue;
+
+    console.log(`--> ${items.length} / ${cantidad} <--`);
 
     ti = Date.now();
     prev_len = items.length;

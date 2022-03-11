@@ -1,5 +1,8 @@
-const { ADMIN_USER, ADMIN_PASS } = require("./scrapFollows");
+require("dotenv").config();
 
+const ADMIN_USER = process.env.INSTA_USERNAME;
+
+const ADMIN_PASS = process.env.INSTA_PASSWORD;
 /**
  * 	Logins to Instagram with admin account
  * 	@param page {puppeteer.Page} - browsers page instance
