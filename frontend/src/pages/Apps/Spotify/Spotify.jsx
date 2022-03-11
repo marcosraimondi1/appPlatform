@@ -87,13 +87,14 @@ export default function Spotify() {
             </div>
           </>
         )}
-        {!loading && downloadLink != "" ? (
+        {!loading && downloadLink !== "" ? (
           <>
             <Button
               style={{ margin: "5px" }}
               variant="contained"
               size="small"
               onClick={downloadZip}
+              color="secondary"
             >
               Get Playlist
             </Button>

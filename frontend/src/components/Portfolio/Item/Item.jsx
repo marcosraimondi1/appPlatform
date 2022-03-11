@@ -15,14 +15,7 @@ export default function Item(props) {
             <p className="mb-0">{props.caption_description}</p>
           </div>
         </div>
-        <img
-          className="img-fluid"
-          style={{ maxHeight: "380 px", maxWidth: "530 px" }}
-          src={props.img_source}
-          alt="..."
-          width="700"
-          height="467"
-        />
+        <img className="img-fluid" src={props.img_source} alt="..." />
       </a>
     </div>
   );

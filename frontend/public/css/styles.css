@@ -633,6 +633,7 @@ progress {
 
 .img-fluid {
   max-width: 100%;
+  max-height: 100%;
   height: auto;
 }
 
@@ -11893,6 +11894,7 @@ footer.footer .social-link:hover {
   position: relative;
   overflow: hidden;
   max-width: 530px;
+  max-height: 400px;
   margin: auto auto 1rem;
 }
 .portfolio-item .caption {
