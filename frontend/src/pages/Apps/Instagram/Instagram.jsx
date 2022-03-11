@@ -8,10 +8,9 @@ import ReactJson from "react-json-view";
 import Header from "../../../components/Header/Header";
 import Footer from "../../../components/Footer/Footer";
 
-import {useInstagram} from "./instagramLogic.js"
+import { useInstagram } from "./instagramLogic.js";
 
 export default function Instagram() {
-  
   const { username, data, loading, setUsername, submit } = useInstagram();
 
   return (
@@ -19,7 +18,7 @@ export default function Instagram() {
       <Header
         id="insta-masthead"
         title="Instagram Follower Scraper"
-        description="Insert your instagram username"
+        description="Insert your instagram username (only public accounts)"
       >
         <div style={{ margin: "10px" }}>
           <input
