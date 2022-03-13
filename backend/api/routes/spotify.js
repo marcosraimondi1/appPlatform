@@ -238,7 +238,7 @@ router.get("/downloadSongs", async (req, res) => {
     // redirect to download route
 
     // get redirect link
-    link = base_url + `/api/downloadzip?zipped_path=${zipped_path}`;
+    let link = base_url + `/api/downloadzip?zipped_path=${zipped_path}`;
     console.log(link);
 
     res.json({ status: "success", link });

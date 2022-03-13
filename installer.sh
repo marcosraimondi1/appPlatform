@@ -98,6 +98,8 @@ sudo mv ./frontend/build ./backend # move build to backend
 
 sudo mkdir backend/data
 
+sudo mkdir backend/screens
+
 echo -------------------------- starting docker -------------------------------------
 
 sudo docker-compose -f docker-compose-prod.yml build
