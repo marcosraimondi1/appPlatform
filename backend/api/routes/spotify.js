@@ -220,10 +220,13 @@ router.get("/downloadSongs", async (req, res) => {
     // get video urls with puppeteer Array<{title, videoId}>
     const videoIds = await getUrls(songs);
 
+    console.log(videoIds);
     if (!videoIds || videoIds.length === 0) throw "failed to get any videoIds";
 
     // await download
     let { paths, save_path } = await convert_playlist(videoIds, playlist_name);
+
+    if (paths.length === 0) throw "failed to download any song";
 
     // send files
     console.log("comprimiendo");
