@@ -54,6 +54,7 @@ async function scrap(songs, browser) {
 
   // get youtube search urls for every song
   const youtube_urls = songs.map((song) => {
+    if (!song) return { title: "", url: "" };
     return {
       title: song.name,
       url: getSearchUrl([song.name, song.artists[0].name, song.album.name]),

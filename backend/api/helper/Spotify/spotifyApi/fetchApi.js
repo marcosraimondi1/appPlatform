@@ -156,7 +156,7 @@ async function fetchPlaylistSongs(access_token, playlist_id) {
 
   // query, atributos que queremos buscar
   const fields =
-    "fields=tracks.items(track(name, id, artists(name), album(name, release_date)))";
+    "fields=tracks.items(track(name, duration_ms, id, artists(name), album(name, release_date)))";
 
   const url = `https://api.spotify.com/v1/playlists/${playlist_id}/?${fields}`;
 
@@ -166,10 +166,11 @@ async function fetchPlaylistSongs(access_token, playlist_id) {
     let data = result.tracks.items;
 
     data = data.map((item) => {
+      if (item.track.duration_ms > 6 * 60 * 1000) return null;
       let { name, id, album, artists } = item.track;
       return { name, id, album, artists };
-    });
-
+    }).filter((item) => item);
+    
     return data;
   } catch (error) {
     console.log(error);
