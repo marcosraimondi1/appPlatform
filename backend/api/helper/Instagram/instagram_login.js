@@ -42,6 +42,13 @@ const instagram_login = async (page) => {
       return { status: "error", error: error_message };
     }
 
+    await page.waitForTimeout(3000);
+    const logged = await page.$(
+      "#react-root > section > nav > div._8MQSO.Cx7Bp > div > div > div._7Nzh3"
+    );
+    await page.screenshot({ path: "screens/login.png" });
+    if (!logged) return { status: "error", error: "failed to login" };
+
     console.log("LOGGED");
 
     await page.waitForTimeout(1500);

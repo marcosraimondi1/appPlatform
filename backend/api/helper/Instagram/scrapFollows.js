@@ -36,11 +36,6 @@ const scrapFollows = async (username) => {
 
   if (res.status == "error") return res;
 
-  const page2 = await browser.newPage();
-  await navigate(page2, `https://www.instagram.com/${username}/`);
-
-  await page2.screenshot({ path: "screens/page2.png" });
-
   res = await instagram_scrap_profile(page, username);
 
   if (res.status === "error") return res;
