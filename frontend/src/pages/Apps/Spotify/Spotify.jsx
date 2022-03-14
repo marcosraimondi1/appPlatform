@@ -32,7 +32,10 @@ export default function Spotify() {
         title="Spotify PlayList Download"
         description={username}
       >
-        <div style={{ margin: "10px" }}>
+        <div
+          hidden={data.length > 0 || downloadLink !== ""}
+          style={{ margin: "10px" }}
+        >
           <Button
             color="error"
             variant="contained"
@@ -96,7 +99,7 @@ export default function Spotify() {
               onClick={downloadZip}
               color="secondary"
             >
-              Get Playlist
+              Download {selectedPlaylist.name}
             </Button>
           </>
         ) : (
