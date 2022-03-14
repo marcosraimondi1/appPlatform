@@ -33,7 +33,7 @@ export default function Spotify() {
         description={username}
       >
         <div
-          hidden={data.length > 0 || downloadLink !== ""}
+          hidden={data.length > 0 || downloadLink !== "" || loading}
           style={{ margin: "10px" }}
         >
           <Button
@@ -90,22 +90,20 @@ export default function Spotify() {
             </div>
           </>
         )}
-        {!loading && downloadLink !== "" ? (
-          <>
-            If download doesn't start automatically visit this link:
-            <Button
-              style={{ margin: "5px" }}
-              variant="contained"
-              size="small"
-              onClick={downloadZip}
-              color="secondary"
-            >
-              Download {selectedPlaylist.name}
-            </Button>
-          </>
-        ) : (
-          <></>
-        )}
+        <div hidden={loading || downloadLink === ""}>
+          <div style={{ color: "#003500" }}>
+            <p>If download doesn't start automatically click here 👇🏼:</p>
+          </div>
+          <Button
+            style={{ margin: "5px" }}
+            variant="contained"
+            size="small"
+            onClick={downloadZip}
+            color="secondary"
+          >
+            Download {selectedPlaylist.name}
+          </Button>
+        </div>
         <div
           hidden={Object.values(songs).length === 0}
           style={{ overflowY: "scroll", maxHeight: "600px" }}
