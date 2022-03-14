@@ -101,7 +101,7 @@ export default function Spotify() {
             onClick={downloadZip}
             color="secondary"
           >
-            Download {selectedPlaylist.name}
+            Download {selectedPlaylist?.name}
           </Button>
         </div>
         <div
