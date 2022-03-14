@@ -61,11 +61,12 @@ export const useSpotify = () => {
     });
     if (res && res.link) {
       // open download tab
-      setDownloadLink(res.link);
+      console.log(res.link);
+      window.open(res.link, "_blank");
 
-      setTimeout(() => {
-        downloadZip();
-      }, 1000);
+      setDownloadLink(res.link);
+      console.log(downloadLink);
+      downloadZip();
     }
 
     setLoading(false);
