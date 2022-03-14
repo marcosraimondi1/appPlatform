@@ -92,6 +92,7 @@ export default function Spotify() {
         )}
         {!loading && downloadLink !== "" ? (
           <>
+            If download doesn't start automatically visit this link:
             <Button
               style={{ margin: "5px" }}
               variant="contained"

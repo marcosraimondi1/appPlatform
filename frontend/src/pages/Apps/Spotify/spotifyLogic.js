@@ -32,6 +32,12 @@ export const useSpotify = () => {
     setLoading(false);
   };
 
+  const downloadZip = () => {
+    window.open(downloadLink, "_blank");
+    setDownloadLink("");
+    return;
+  };
+
   const downloadPlaylist = async () => {
     if (!selectedPlaylist) {
       alert("select a playlist");
@@ -53,14 +59,9 @@ export const useSpotify = () => {
     if (res && res.link) {
       // open download tab
       setDownloadLink(res.link);
+      downloadZip();
     }
     setLoading(false);
-  };
-
-  const downloadZip = () => {
-    window.open(downloadLink, "_blank");
-    setDownloadLink("");
-    return;
   };
 
   return {
