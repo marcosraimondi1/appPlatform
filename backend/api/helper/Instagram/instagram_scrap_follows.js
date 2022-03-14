@@ -105,7 +105,7 @@ const getCantidad = async (page, link_number) => {
   try {
     let cantidad_selector = `#react-root > section > main > div > header > section > ul > li:nth-child(${link_number}) > a > div > span`;
 
-    await page.waitForTimeout(1000);
+    await page.waitForTimeout(1500);
 
     let elemento = await page.$(cantidad_selector);
 

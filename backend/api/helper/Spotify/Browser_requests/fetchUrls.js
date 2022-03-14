@@ -1,5 +1,6 @@
 const puppeteer = require("puppeteer");
 
+const MAX_DURATION_MINS = 6 // only downloaad videos with duration <= 6 minutes 
 /**
  * Get video ids of songs
  * @param {Array<object>} songs
@@ -108,12 +109,19 @@ const getUrl = async (page, url) => {
     // get video url from the dom
     let requested_url = await page.evaluate(async () => {
       try {
+        // first check video duration
+        let duration = document.querySelector("span#text");
+        if (parseInt(duration.innerHTML.split(":")[0]) > MAX_DURATION_MINS) throw "video to long"
+        
+        // get video url
         let el = document.querySelector("a#video-title");
         return Promise.resolve(el.href);
       } catch (error) {
         console.log("script error", error);
+        return Promise.resolve("");
       }
     });
+
     return requested_url;
   } catch (error) {
     console.log("error: ", error);
