@@ -91,7 +91,7 @@ export default function Spotify() {
           </>
         )}
         <div hidden={loading || downloadLink === ""}>
-          <div style={{ color: "#003500" }}>
+          <div style={{ color: "#fff", fontWeight: "bold" }}>
             <p>If download doesn't start automatically click here 👇🏼:</p>
           </div>
           <Button
