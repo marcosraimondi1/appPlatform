@@ -33,7 +33,10 @@ export const useSpotify = () => {
   };
 
   const downloadZip = () => {
-    window.open(downloadLink, "_blank");
+    let opened = window.open(downloadLink, "_blank");
+
+    if (!opened) return; // blocked by pop up blocker
+
     setDownloadLink("");
     return;
   };
