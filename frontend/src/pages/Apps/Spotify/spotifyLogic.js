@@ -63,9 +63,10 @@ export const useSpotify = () => {
       // open download tab
       console.log(res.link);
 
-      let opened = window.open(res.link, "_blank");
+      // let opened = window.open(res.link, "_blank");
 
-      if (!opened) setDownloadLink(res.link);
+      // if (!opened) setDownloadLink(res.link);
+      setDownloadLink(res.link);
     }
 
     setLoading(false);

@@ -92,7 +92,8 @@ export default function Spotify() {
         )}
         <div hidden={loading || downloadLink === ""}>
           <div style={{ color: "#fff", fontWeight: "bold" }}>
-            <p>If download doesn't start automatically click here 👇🏼:</p>
+            <p>Click here to download your playlist👇🏼:</p>
+            <p>{downloadLink}</p>
           </div>
           <Button
             style={{ margin: "5px" }}
@@ -103,6 +104,10 @@ export default function Spotify() {
           >
             Download {selectedPlaylist?.name}
           </Button>
+          <div style={{ color: "#fff", fontWeight: "bold" }}>
+            <p>Or copy this link on any device to get the playlist there 👇🏼:</p>
+            <p>{downloadLink}</p>
+          </div>
         </div>
         <div
           hidden={Object.values(songs).length === 0}
