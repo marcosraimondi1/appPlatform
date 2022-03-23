@@ -26,7 +26,7 @@ async function convert_playlist(songs, playlist_name) {
   // creates Download function
   const YD = await youtubeMp3Converter(save_path);
 
-  const arrays = divide_in_smaller_arrays(songs, 5);
+  const arrays = divide_in_smaller_arrays(songs, 3);
 
   let paths = [];
 

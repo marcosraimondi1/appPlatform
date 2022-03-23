@@ -1,6 +1,6 @@
 const puppeteer = require("puppeteer");
 
-const MAX_DURATION_MINS = 6; // only downloaad videos with duration <= 6 minutes
+const MAX_DURATION_MINS = 7; // only downloaad videos with duration <= 6 minutes
 /**
  * Get video ids of songs
  * @param {Array<object>} songs
@@ -107,25 +107,31 @@ const getUrl = async (page, url) => {
     await page.goto(url, { waitUntil: "domcontentloaded" });
     await page.waitForSelector("a#video-title");
     await page.waitForSelector("span#text");
-
+    let duration = 0;
     // get video url from the dom
-    let requested_url = await page.evaluate(async (MAX_DURATION_MINS) => {
-      try {
-        // first check video duration
-        let duration = document.querySelector("span#text");
+    let requested_url = await page.evaluate(
+      async (MAX_DURATION_MINS, duration) => {
+        try {
+          // first check video duration
+          duration = parseInt(
+            document.querySelector("span#text").innerHTML.split(":")[0]
+          );
 
-        if (parseInt(duration.innerHTML.split(":")[0]) > MAX_DURATION_MINS)
-          throw "video to long";
+          if (parseInt(duration.innerHTML.split(":")[0]) > MAX_DURATION_MINS)
+            throw "video to long";
 
-        // get video url
-        let el = document.querySelector("a#video-title");
+          // get video url
+          let el = document.querySelector("a#video-title");
 
-        return Promise.resolve(el.href);
-      } catch (error) {
-        return Promise.resolve("");
-      }
-    }, MAX_DURATION_MINS);
-
+          return Promise.resolve(el.href);
+        } catch (error) {
+          return Promise.resolve("");
+        }
+      },
+      MAX_DURATION_MINS,
+      duration
+    );
+    console.log("Duration: ", duration);
     return requested_url;
   } catch (error) {
     console.log("error: ", error);
