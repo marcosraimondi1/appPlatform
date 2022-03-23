@@ -93,7 +93,6 @@ export default function Spotify() {
         <div hidden={loading || downloadLink === ""}>
           <div style={{ color: "#fff", fontWeight: "bold" }}>
             <p>Click here to download your playlist👇🏼:</p>
-            <p>{downloadLink}</p>
           </div>
           <Button
             style={{ margin: "5px" }}
@@ -106,7 +105,7 @@ export default function Spotify() {
           </Button>
           <div style={{ color: "#fff", fontWeight: "bold" }}>
             <p>Or copy this link on any device to get the playlist there 👇🏼:</p>
-            <p>{downloadLink}</p>
+            <p style={{ color: "#e949e4", fontWeight: "bold" }}>{downloadLink}</p>
           </div>
         </div>
         <div
