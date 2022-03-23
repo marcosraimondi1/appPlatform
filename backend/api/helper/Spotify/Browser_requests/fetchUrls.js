@@ -1,6 +1,6 @@
 const puppeteer = require("puppeteer");
 
-const MAX_DURATION_MINS = 7; // only downloaad videos with duration <= 6 minutes
+const MAX_DURATION_MINS = 10; // only downloaad videos with duration <= 10 minutes
 /**
  * Get video ids of songs
  * @param {Array<object>} songs

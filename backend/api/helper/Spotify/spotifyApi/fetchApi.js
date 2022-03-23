@@ -1,10 +1,12 @@
 const fetch = require("node-fetch");
 
-const dotenv = require("dotenv").config();
+require("dotenv").config();
 
 const client_id = process.env.SPOT_CLIENT_ID;
 const client_secret = process.env.SPOT_CLIENT_SECRET;
 const redirect_uri = process.env.SPOT_REDIRECT_URI;
+
+const MAX_DURATION_MS = 10 * 60 * 1000; // 10 minutes
 
 /**
  * 	Generates Random String
@@ -166,7 +168,7 @@ async function fetchPlaylistSongs(access_token, playlist_id) {
     let data = result.tracks.items;
 
     data = data.map((item) => {
-      if (item.track.duration_ms > 6 * 60 * 1000) return null;
+      if (item.track.duration_ms > MAX_DURATION_MS ) return null;
       let { name, id, album, artists } = item.track;
       return { name, id, album, artists };
     }).filter((item) => item);
