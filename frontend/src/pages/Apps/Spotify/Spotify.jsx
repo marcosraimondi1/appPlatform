@@ -105,7 +105,7 @@ export default function Spotify() {
           </Button>
           <div style={{ color: "#fff", fontWeight: "bold" }}>
             <p>Or copy this link on any device to get the playlist there 👇🏼:</p>
-            <p style={{ color: "#f88be2", fontWeight: "bold" }}>{downloadLink}</p>
+            <p style={{ color: "#dd0000", fontWeight: "bold" }}>{downloadLink}</p>
           </div>
         </div>
         <div
