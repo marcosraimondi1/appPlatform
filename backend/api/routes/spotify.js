@@ -268,6 +268,10 @@ router.get("/downloadzip", async (req, res) => {
     res.download(zipped_path, (err) => {
       if (err) {
         console.log("failed to download: " + zipped_path, "\nError: ", err);
+        if (err.statusCode === 404) {
+          return res.status(404).json({ error: "No such file or directory" });
+        }
+        return res.status(500).json({ error: err.message });
       } else {
         console.log("file downloaded");
         fs.rmSync(zipped_path, { recursive: true, force: true });
