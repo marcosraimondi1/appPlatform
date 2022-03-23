@@ -21,7 +21,7 @@ const getUrls = async (songs) => {
   });
 
   // divide songs in smaller arrays for better performance
-  const arrays = divide_in_smaller_arrays(songs, 15);
+  const arrays = divide_in_smaller_arrays(songs, 25);
 
   // each smaller array will have a separate browser page
   let promise_array = arrays.map((array) => scrap(array, browser));
@@ -51,6 +51,7 @@ const getUrls = async (songs) => {
  */
 async function scrap(songs, browser) {
   const page = await browser.newPage();
+  page.setDefaultNavigationTimeout(15000);
 
   // get youtube search urls for every song
   const youtube_urls = songs.map((song) => {
