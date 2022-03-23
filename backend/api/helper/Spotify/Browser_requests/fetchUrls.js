@@ -107,31 +107,32 @@ const getUrl = async (page, url) => {
     await page.goto(url, { waitUntil: "domcontentloaded" });
     await page.waitForSelector("a#video-title");
     await page.waitForSelector("span#text");
-    let duration = 0;
+
     // get video url from the dom
-    let requested_url = await page.evaluate(
-      async (MAX_DURATION_MINS, duration) => {
+    let requested_url = await page.evaluate(async (MAX_DURATION_MINS) => {
+      try {
+        // first check video duration
+        let duration = 0;
+
         try {
-          // first check video duration
           duration = parseInt(
             document.querySelector("span#text").innerHTML.split(":")[0]
           );
-
-          if (duration > MAX_DURATION_MINS)
-            throw "video to long";
-
-          // get video url
-          let el = document.querySelector("a#video-title");
-
-          return Promise.resolve(el.href);
         } catch (error) {
-          return Promise.resolve("");
+          duration = 0;
         }
-      },
-      MAX_DURATION_MINS,
-      duration
-    );
-    console.log("Duration: ", duration);
+
+        if (duration > MAX_DURATION_MINS) throw "video to long";
+
+        // get video url
+        let el = document.querySelector("a#video-title");
+
+        return Promise.resolve(el.href);
+      } catch (error) {
+        return Promise.resolve("");
+      }
+    }, MAX_DURATION_MINS);
+
     return requested_url;
   } catch (error) {
     console.log("error: ", error);
