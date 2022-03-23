@@ -117,7 +117,7 @@ const getUrl = async (page, url) => {
             document.querySelector("span#text").innerHTML.split(":")[0]
           );
 
-          if (parseInt(duration.innerHTML.split(":")[0]) > MAX_DURATION_MINS)
+          if (duration > MAX_DURATION_MINS)
             throw "video to long";
 
           // get video url
