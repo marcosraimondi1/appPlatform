@@ -152,7 +152,12 @@ Try this project online at https://multiapp.my.to . Or clone this project and fo
     REACT_APP_API_BASE_URL=http://127.0.0.1:5000/api
     ```
 
-4. All is set up, from cmd run
+4. If running on windows set this line at `backend/api/helper/Spotify/YMP3Converter/youtubeToMp3.js`, so you don't get permission errors:
+  ```js
+  const savePath = "C:\\Users\\yourUser\\foldertosaveplaylists"; // for windows
+  ```
+
+5. All is set up, from cmd run
     ```sh
         # this starts react app
         cd frontend
@@ -164,11 +169,11 @@ Try this project online at https://multiapp.my.to . Or clone this project and fo
         npm run devn
     ```
 
-5. Now you should be able to access the application at your localhost.
+6. Now you should be able to access the application at your localhost.
 
-6. Optionally you can use docker-compose `docker-compose.yml` to start the project. (Environment Variables are still needed) 
+7. Optionally you can use docker-compose `docker-compose.yml` to start the project. (Environment Variables are still needed) 
 
-7. Another option is setting up the project using cloud services such us AWS. In that case open the ssh client to your linux machine and copy `installer.sh` bash file. Then execute:
+8. Another option is setting up the project using cloud services such us AWS. In that case open the ssh client to your linux machine and copy `installer.sh` bash file. Then execute:
 
 ```sh
 sudo bash installer.sh
@@ -191,17 +196,13 @@ Once you are in the app you can access all my projects. Some such as instagram s
 
 Within this application you will be able to download the songs of any of your own or followed spotify playlists.
 
-First login with your spotify account.
+  1. First login with your spotify account.
 
 [![Product Name Screen Shot][product-screenshot3]](http://multiapp.my.to/spotify)
 
-Select a playlist and hit the download button.
-
-[![Product Name Screen Shot][product-screenshot4]](http://multiapp.my.to/spotify)
-
-The process will begin and it may take several minutes depending how many songs are there in the playlist.
-
-Once the file is ready to download you will see a button as well as a link to visit. Click the button to download the zip file of the playlist into your computer or copy the link into the device you want to download it.
+  2. Select a playlist and hit the download button. The process will begin and it may take several minutes depending how many songs are there in the playlist.
+  
+  3. Once the file is ready to download you will see a button as well as a link to visit. Click the button to download the zip file of the playlist into your computer or copy the link into the device you want to download it.
 
 [![Product Name Screen Shot][product-screenshot5]](http://multiapp.my.to/spotify)
 
@@ -211,12 +212,16 @@ Once the file is ready to download you will see a button as well as a link to vi
 [![Product Name Screen Shot][product-screenshot1]](http://multiapp.my.to/instagram)
 
 
-This is an implementation of a [python project](https://github.com/marcosraimondi1/Instagram-Scraper) 
-Insert your username and click search, this will take some minutes and once finished you should see a json object with information about your followers and followings. 
+This is an implementation of a python project: [project-repo](https://github.com/marcosraimondi1/Instagram-Scraper) 
+
+  1. Insert your username and click search, this will take some minutes and once finished you should see a json object with information about your followers and followings. 
+
 
 - Agro CRM: [project-repo](https://github.com/marcosraimondi1/AgroCRM)
 
+
 - Turnero: [project-repo](https://github.com/marcosraimondi1/turnero)
+
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -240,7 +245,6 @@ Insert your username and click search, this will take some minutes and once fini
   - [x] Use AWS Ec2 instance to deploy docker app
   - [x] Create bash files to automate installing and updating the project in the ssh client
 - [x] Further optimization improvements to spotify playlist downloader
-
 
 
 See the [open issues](https://github.com/marcosraimondi1/appPlatform/issues) for a full list of proposed features (and known issues).
@@ -278,9 +282,9 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 Marcos Raimondi - [@marcosraimondi](https://www.linkedin.com/in/marcos-raimondi/) - marcosraimondi1@gmail.com
 
-:globe_with_meridians: https://marcosraimondi1.github.io 
-
 Project Link: [https://github.com/marcosraimondi1/appPlatform](https://github.com/marcosraimondi1/appPlatform)
+
+:globe_with_meridians: https://marcosraimondi1.github.io 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -315,6 +319,6 @@ Project Link: [https://github.com/marcosraimondi1/appPlatform](https://github.co
 [product-screenshot]: images/screenshot.png
 [product-screenshot1]: images/instagram.png
 [product-screenshot2]: images/spotify_login.png
-[product-screenshot3]: images/spotify_login.png
+[product-screenshot3]: images/spotify_login2.png
 [product-screenshot4]: images/spotify_select.png
 [product-screenshot5]: images/spotify_download.png
