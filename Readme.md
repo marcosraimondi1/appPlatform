@@ -105,7 +105,7 @@ Try this project online at https://multiapp.my.to . Or clone this project and fo
   ```sh
   npm install npm@latest -g
   ```
-- ffmpeg: if running in windows, you will need the ffmpeg installed, the files are already included in the backend directory so you don't need to worry about it.
+- ffmpeg: if running on windows, you will need the ffmpeg installed, the files are already included in the backend directory so you don't need to worry about it.
 
 ### Installation :wrench:
 
