@@ -190,7 +190,7 @@ This will install all necessary dependencies and packages to get the app running
 
 Once you are in the app you can access all my projects. Some such as instagram scraper or spotify playlist downloader.
 
-- Spotify Playlist Downloader:
+#### Spotify Playlist Downloader:
 
 [![Product Name Screen Shot][product-screenshot2]](http://multiapp.my.to/spotify)
 
@@ -207,7 +207,7 @@ Within this application you will be able to download the songs of any of your ow
 [![Product Name Screen Shot][product-screenshot5]](http://multiapp.my.to/spotify)
 
 
-- Instagram Follower Scraper:
+#### Instagram Follower Scraper:
 
 [![Product Name Screen Shot][product-screenshot1]](http://multiapp.my.to/instagram)
 
@@ -217,10 +217,13 @@ This is an implementation of a python project: [project-repo](https://github.com
   1. Insert your username and click search, this will take some minutes and once finished you should see a json object with information about your followers and followings. 
 
 
-- Agro CRM: [project-repo](https://github.com/marcosraimondi1/AgroCRM)
+
+#### Agro CRM: 
+The project repo: [project-repo](https://github.com/marcosraimondi1/AgroCRM)
 
 
-- Turnero: [project-repo](https://github.com/marcosraimondi1/turnero)
+#### Turnero: 
+The project repo: [project-repo](https://github.com/marcosraimondi1/turnero)
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
