@@ -23,7 +23,6 @@ const {
   getUserData,
   zipDirectory,
 } = require("../helper/Spotify/utils");
-const { link } = require("fs/promises");
 
 const client_id = process.env.SPOT_CLIENT_ID;
 const redirect_uri = process.env.SPOT_REDIRECT_URI;
