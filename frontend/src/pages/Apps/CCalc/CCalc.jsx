@@ -1,65 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 
 import MathJax from "react-mathjax2";
-import { create, all } from "mathjs";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { TextField } from "@mui/material";
 
 import Header from "../../../components/Header/Header";
 import Footer from "../../../components/Footer/Footer";
-
-const math = create(all, {});
+import { useCcalc } from "./ccalcLogic";
 
 export default function CCalc() {
-  const [variables, setVariables] = useState([]);
-  const [equation, setEquation] = useState("");
-  const [eqinput, setEqinput] = useState("");
-  const [result, setResult] = useState("");
-
-  const deleteVar = (varName) => {
-    setVariables((prev) => prev.filter((v) => v.name !== varName));
-  };
-
-  const vars = variables.map((variable) => (
-    <div key={variable.name} style={{ color: "blue" }}>
-      <p
-        style={{
-          fontSize: "20px",
-          display: "inline",
-          marginRight: "10px",
-          padding: "5px",
-        }}
-      >
-        {variable.name + " = " + variable.value}
-      </p>
-      <FontAwesomeIcon
-        id="icon"
-        style={{ display: "inline", padding: "5px" }}
-        color="yellow"
-        icon="trash"
-        size="md"
-        onClick={() => deleteVar(variable.name)}
-      />
-    </div>
-  ));
-
-  const submit = () => {
-    let varName = equation.split("=")[0].replace(/\s/g, "");
-    if (varName === "") {
-      alert("Invalid Input");
-      return;
-    }
-
-    const exists = variables.filter((v) => v.name === varName).length > 0;
-
-    if (exists) {
-      alert("Cannot have 2 variables with same name");
-      return;
-    }
-
-    setVariables((prev) => [...prev, { name: varName, value: result }]);
-  };
+  const { submit, vars, equation, result, eqinput, onChangeEqInput } =
+    useCcalc();
 
   return (
     <>
@@ -77,21 +28,7 @@ export default function CCalc() {
             color="success"
             fullWidth
             value={eqinput}
-            onChange={(e) => {
-              let eq = e.target.value;
-
-              variables.forEach((variable) => {
-                eq = eq.replaceAll(variable.name, `(${variable.value})`);
-              });
-              setEqinput(e.target.value);
-              setEquation(eq);
-              let res = "";
-              try {
-                res = math.evaluate(eq);
-              } catch (error) {}
-              if (!res) res = "";
-              setResult(res);
-            }}
+            onChange={(e) => onChangeEqInput(e.target.value)}
             style={{ margin: "10px" }}
           />
         </div>
@@ -127,7 +64,7 @@ export default function CCalc() {
 
         <br />
         <div style={{ margin: "10px" }}>
-          {vars.length > 0 ? <>Variables</>:<></>}
+          {vars.length > 0 ? <>Variables</> : <></>}
           {vars}
         </div>
       </Header>
