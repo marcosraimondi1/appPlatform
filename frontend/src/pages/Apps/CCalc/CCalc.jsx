@@ -9,9 +9,8 @@ import Footer from "../../../components/Footer/Footer";
 import { useCcalc } from "./ccalcLogic";
 
 export default function CCalc() {
-  const { submit, vars, equation, result, eqinput, onChangeEqInput } =
-    useCcalc();
-
+  const { submit, vars, eqText, eqinput, onChangeEqInput } = useCcalc();
+  
   return (
     <>
       <Header
@@ -54,7 +53,7 @@ export default function CCalc() {
               },
             }}
           >
-            <MathJax.Text text={"$$" + equation + "$$" + " = " + result} />
+            <MathJax.Text text={eqText} />
           </MathJax.Context>
         </div>
 
