@@ -24,6 +24,12 @@ export default function Portfolio(props) {
               img_source="assets/img/portfolio/spotify.jpg"
             />
             <Item
+              href="/ccalc"
+              caption_title="Complex Calc"
+              caption_description="Calculator for complex numbers and matrices"
+              img_source="assets/img/portfolio/ccalc.jpg"
+            />
+            <Item
               href="http://agro-crm-project.herokuapp.com"
               caption_title="Agro CRM"
               caption_description="A Customer Relationship Management app!"

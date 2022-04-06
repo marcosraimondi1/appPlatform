@@ -11998,6 +11998,23 @@ footer.footer .social-link:hover {
   background-size: cover;
 }
 
+#ccalc-masthead {
+  background: linear-gradient(90deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(255, 255, 255, 0.1) 100%),
+    url("../assets/img/portfolio/ccalc.jpg");
+  background-position: center center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: black;
+  font-weight: bold;
+}
+
+#ccalc-masthead #icon:hover {
+  cursor: pointer;
+}
+
 #spotify-masthead {
   background: linear-gradient(
       90deg,
