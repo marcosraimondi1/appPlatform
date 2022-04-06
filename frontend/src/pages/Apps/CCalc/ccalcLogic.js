@@ -38,8 +38,11 @@ export const useCcalc = () => {
     </div>
   ));
 
-  const submit = () => {
-    let varName = equation.split("=")[0].replace(/\s/g, "");
+  const submit = (event) => {
+    event.preventDefault();
+
+    let varName = eqinput.split("=")[0].replace(/\s/g, "");
+
     if (varName === "") {
       alert("Invalid Input");
       return;
@@ -52,13 +55,19 @@ export const useCcalc = () => {
       return;
     }
 
+    if (!result || result === "") {
+      alert("Invalid Expression");
+      return;
+    }
+
     setVariables((prev) => [...prev, { name: varName, value: result }]);
+    onChangeEqInput("");
   };
 
   const onChangeEqInput = (value) => {
     let eq = value;
     variables.forEach((variable) => {
-      eq = eq.replaceAll(variable.name, `(${variable.value})`);
+      eq = eq.replaceAll(`${variable.name}$`, `(${variable.value})`);
     });
     setEqinput(value);
     setEquation(eq);
