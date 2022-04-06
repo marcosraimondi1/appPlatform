@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.use(express.static(build_path));
 
-const allowed_routes = ["/", "/spotify", "/spotify/*", "/instagram"];
+const allowed_routes = ["/", "ccalc", "/spotify", "/spotify/*", "/instagram"];
 
 router.get(allowed_routes, async (req, res) => {
   try {
