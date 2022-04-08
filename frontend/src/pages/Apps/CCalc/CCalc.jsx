@@ -1,6 +1,6 @@
 import React from "react";
 
-import MathJax from "react-mathjax2";
+import MathJax from "./Mathjax/Mathjax.jsx";
 
 import { TextField } from "@mui/material";
 
@@ -41,27 +41,11 @@ export default function CCalc() {
 
           <br />
 
-          <div style={{ fontSize: "25px", margin: "10px" }}>
-            <MathJax.Context
-              input="ascii"
-              onError={(MathJax, error) => {
-                console.warn(error);
-                console.log(
-                  "Encountered a MathJax error, re-attempting a typeset!"
-                );
-                MathJax.Hub.Queue(MathJax.Hub.Typeset());
-              }}
-              script="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=AM_HTMLorMML"
-              options={{
-                asciimath2jax: {
-                  useMathMLspacing: true,
-                  delimiters: [["$$", "$$"]],
-                  preview: "none",
-                },
-              }}
-            >
-              <MathJax.Text text={eqText} />
-            </MathJax.Context>
+          <div
+            style={{ fontSize: "25px", margin: "10px", alignItems: "center" }}
+          >
+            <MathJax equation={eqText[0]} />
+            <MathJax equation={eqText[1]} />
           </div>
 
           <button className="btn btn-primary" onClick={submit}>

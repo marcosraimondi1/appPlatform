@@ -79,8 +79,6 @@ export const useCcalc = () => {
     setResult(res);
   };
 
-  const eqText =
-    result === "" ? `$$${equation}$$` : `$$${equation} = ${result}$$`;
-
+  const eqText = [`$$${equation}$$`, `$$= ${result}$$`];
   return { submit, vars, eqText, eqinput, onChangeEqInput };
 };
