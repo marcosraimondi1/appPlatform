@@ -18,6 +18,12 @@ export default function CCalc() {
         title="Complex Calculator"
         description="Solve equations and operate with complex numbers"
       >
+        <a
+          style={{ color: "#000000", fontWeight: "450" }}
+          href={global.BASE_API_URL + "/ccalc/information"}
+        >
+          Instructivo
+        </a>
         <form onSubmit={submit}>
           <div style={{ margin: "10px" }}>
             <TextField
@@ -25,7 +31,7 @@ export default function CCalc() {
               label="Equation"
               size="small"
               variant="filled"
-              color="success"
+              color="secondary"
               fullWidth
               value={eqinput}
               onChange={(e) => onChangeEqInput(e.target.value)}

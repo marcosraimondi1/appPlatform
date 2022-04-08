@@ -1,5 +1,6 @@
 const instagramRouter = require("./routes/instagram.js");
 const spotifyRouter = require("./routes/spotify.js");
+const ccalcRouter = require("./routes/ccalc.js");
 const appRouter = require("./routes/app.js");
 
 const express = require("express");
@@ -31,6 +32,7 @@ function express_config() {
   // express routes
   app.use("/api", instagramRouter);
   app.use("/api", spotifyRouter);
+  app.use("/api", ccalcRouter);
 
   // in production serve static build
   if (process.env.NODE_ENV === "production") app.use("/", appRouter);
