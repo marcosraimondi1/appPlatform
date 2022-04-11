@@ -54,9 +54,26 @@ export default function CCalc() {
         </form>
 
         <br />
-        <div style={{ margin: "10px" }}>
-          {vars.length > 0 ? <>Variables</> : <></>}
-          {vars}
+        <div
+          style={{
+            display: "flex",
+            margin: "10px",
+            alignItems: "center",
+            flexDirection: "column",
+          }}
+        >
+          {vars.length > 0 ? <p>Variables</p> : <></>}
+
+          <div
+            style={{
+              maxHeight: "150px",
+              overflowY: "scroll",
+              alignSelf: "center",
+              width: "300px",
+            }}
+          >
+            {vars}
+          </div>
         </div>
       </Header>
       <Footer />

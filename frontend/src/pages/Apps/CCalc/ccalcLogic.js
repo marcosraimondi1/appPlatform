@@ -16,20 +16,32 @@ export const useCcalc = () => {
   };
 
   const vars = variables.map((variable) => (
-    <div key={variable.name} style={{ color: "blue" }}>
+    <div
+      key={variable.name}
+      style={{
+        display: "flex",
+        color: "blue",
+        flexDirection: "row",
+        justifyContent: "space-between",
+      }}
+    >
       <p
+        id="icon"
         style={{
           fontSize: "20px",
-          display: "inline",
-          marginRight: "10px",
-          padding: "5px",
+          marginLeft: "10px",
+          padding: "3px",
+          alignSelf: "start",
+        }}
+        onClick={() => {
+          setEqinput((prev) => `${prev + variable.name}$ `);
         }}
       >
-        {variable.name + " = " + variable.value}
+        {variable.name + " : " + math.typeOf(variable.value)}
       </p>
       <FontAwesomeIcon
         id="icon"
-        style={{ display: "inline", padding: "5px" }}
+        style={{ alignSelf: "start", marginRight: "10px" }}
         color="yellow"
         icon="trash"
         size="md"
