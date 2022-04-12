@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { create, all } from "mathjs";
+import { create, all, and } from "mathjs";
 
 const math = create(all, {});
 
@@ -44,7 +44,7 @@ export const useCcalc = () => {
         style={{ alignSelf: "start", marginRight: "10px" }}
         color="yellow"
         icon="trash"
-        size="md"
+        size="sm"
         onClick={() => deleteVar(variable.name)}
       />
     </div>
@@ -85,6 +85,14 @@ export const useCcalc = () => {
     setEquation(eq);
     let res = "";
     try {
+      if (
+        eq.indexOf("lusolve") >= 0 &&
+        eq.replace(/\s/g, "").indexOf("lusolve(") < 0
+      ) {
+        console.log("missing params");
+        throw new Error("Params missing!");
+      }
+
       res = math.evaluate(eq);
     } catch (error) {}
     if (!res) res = "";
