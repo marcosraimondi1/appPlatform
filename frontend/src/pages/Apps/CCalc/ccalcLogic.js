@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { create, all } from "mathjs";
@@ -10,41 +10,52 @@ export const useCcalc = () => {
   const [equation, setEquation] = useState("");
   const [result, setResult] = useState("");
   const [errorW, setError] = useState("");
+  const [scope, setScope] = useState({});
+  const [vars, setVars] = useState([]);
 
-  const vars = variables.map((variable) => (
-    <div
-      key={variable.name}
-      style={{
-        display: "flex",
-        color: "blue",
-        flexDirection: "row",
-        justifyContent: "space-between",
-      }}
-    >
-      <p
-        id="icon"
-        style={{
-          fontSize: "20px",
-          marginLeft: "10px",
-          padding: "3px",
-          alignSelf: "start",
-        }}
-        onClick={() => {
-          setEquation((prev) => `${prev + variable.name}$ `);
-        }}
-      >
-        {variable.name + " : " + math.typeOf(variable.value)}
-      </p>
-      <FontAwesomeIcon
-        id="icon"
-        style={{ alignSelf: "start", marginRight: "10px" }}
-        color="yellow"
-        icon="trash"
-        size="sm"
-        onClick={() => deleteVar(variable.name)}
-      />
-    </div>
-  ));
+  useEffect(() => {
+    setVars(
+      variables.map((variable) => {
+        let newScope = scope;
+        newScope[variable.name] = variable.value;
+        setScope(newScope);
+        return (
+          <div
+            key={variable.name}
+            style={{
+              display: "flex",
+              color: "blue",
+              flexDirection: "row",
+              justifyContent: "space-between",
+            }}
+          >
+            <p
+              id="icon"
+              style={{
+                fontSize: "20px",
+                marginLeft: "10px",
+                padding: "3px",
+                alignSelf: "start",
+              }}
+              onClick={() => {
+                setEquation((prev) => `${prev + variable.name}$ `);
+              }}
+            >
+              {variable.name + " : " + math.typeOf(variable.value)}
+            </p>
+            <FontAwesomeIcon
+              id="icon"
+              style={{ alignSelf: "start", marginRight: "10px" }}
+              color="yellow"
+              icon="trash"
+              size="sm"
+              onClick={() => deleteVar(variable.name)}
+            />
+          </div>
+        );
+      })
+    );
+  }, [variables, scope]);
 
   const deleteVar = (varName) => {
     setVariables((prev) => prev.filter((v) => v.name !== varName));
@@ -79,7 +90,7 @@ export const useCcalc = () => {
   const onChangeEqInput = (value) => {
     setEquation(value);
     try {
-      setResult(doMath(value));
+      setResult(doMath(value, scope));
       setError("");
     } catch (error) {
       setError(error.message);
@@ -91,21 +102,22 @@ export const useCcalc = () => {
   return { submit, vars, eqText, equation, onChangeEqInput, errorW };
 };
 
-const doMath = (eq) => {
+const doMath = (eq, scope) => {
   let res = "";
   try {
-    res = math.evaluate(eq + "()");
+    res = math.evaluate(eq + "()", scope);
   } catch (e) {
     // Do not evaluate function with few arguments
     if (e.message.indexOf("Too few arguments in function") > -1) {
       throw e;
     }
     try {
-      res = math.evaluate(eq);
+      res = math.evaluate(eq, scope);
     } catch (e) {
       throw e;
     }
   }
   if (!res) res = "";
+  console.log(scope);
   return res;
 };
