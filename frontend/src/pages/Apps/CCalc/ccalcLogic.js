@@ -1,19 +1,15 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { create, all, and } from "mathjs";
+import { create, all } from "mathjs";
 
 const math = create(all, {});
 
 export const useCcalc = () => {
   const [variables, setVariables] = useState([]);
   const [equation, setEquation] = useState("");
-  const [eqinput, setEqinput] = useState("");
   const [result, setResult] = useState("");
-
-  const deleteVar = (varName) => {
-    setVariables((prev) => prev.filter((v) => v.name !== varName));
-  };
+  const [errorW, setError] = useState("");
 
   const vars = variables.map((variable) => (
     <div
@@ -34,7 +30,7 @@ export const useCcalc = () => {
           alignSelf: "start",
         }}
         onClick={() => {
-          setEqinput((prev) => `${prev + variable.name}$ `);
+          setEquation((prev) => `${prev + variable.name}$ `);
         }}
       >
         {variable.name + " : " + math.typeOf(variable.value)}
@@ -50,10 +46,14 @@ export const useCcalc = () => {
     </div>
   ));
 
+  const deleteVar = (varName) => {
+    setVariables((prev) => prev.filter((v) => v.name !== varName));
+  };
+
   const submit = (event) => {
     event.preventDefault();
 
-    let varName = eqinput.split("=")[0].replace(/\s/g, "");
+    let varName = equation.split("=")[0].replace(/\s/g, "");
 
     if (varName === "") {
       alert("Invalid Input");
@@ -77,28 +77,35 @@ export const useCcalc = () => {
   };
 
   const onChangeEqInput = (value) => {
-    let eq = value;
-    variables.forEach((variable) => {
-      eq = eq.replaceAll(`${variable.name}$`, `(${variable.value})`);
-    });
-    setEqinput(value);
-    setEquation(eq);
-    let res = "";
+    setEquation(value);
     try {
-      if (
-        eq.indexOf("lusolve") >= 0 &&
-        eq.replace(/\s/g, "").indexOf("lusolve(") < 0
-      ) {
-        console.log("missing params");
-        throw new Error("Params missing!");
-      }
-
-      res = math.evaluate(eq);
-    } catch (error) {}
-    if (!res) res = "";
-    setResult(res);
+      setResult(doMath(value));
+      setError("");
+    } catch (error) {
+      setError(error.message);
+    }
   };
 
   const eqText = [`$$${equation}$$`, `$$= ${result}$$`];
-  return { submit, vars, eqText, eqinput, onChangeEqInput };
+
+  return { submit, vars, eqText, equation, onChangeEqInput, errorW };
+};
+
+const doMath = (eq) => {
+  let res = "";
+  try {
+    res = math.evaluate(eq + "()");
+  } catch (e) {
+    // Do not evaluate function with few arguments
+    if (e.message.indexOf("Too few arguments in function") > -1) {
+      throw e;
+    }
+    try {
+      res = math.evaluate(eq);
+    } catch (e) {
+      throw e;
+    }
+  }
+  if (!res) res = "";
+  return res;
 };

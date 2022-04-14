@@ -9,7 +9,8 @@ import Footer from "../../../components/Footer/Footer";
 import { useCcalc } from "./ccalcLogic";
 
 export default function CCalc() {
-  const { submit, vars, eqText, eqinput, onChangeEqInput } = useCcalc();
+  const { submit, vars, eqText, equation, onChangeEqInput, errorW } =
+    useCcalc();
 
   return (
     <>
@@ -27,13 +28,16 @@ export default function CCalc() {
         <form onSubmit={submit}>
           <div style={{ margin: "10px" }}>
             <TextField
+              autoCorrect="false"
               id="outlined-basic"
               label="Equation"
               size="small"
               variant="filled"
               color="secondary"
               fullWidth
-              value={eqinput}
+              error={errorW != ""}
+              helperText={errorW}
+              value={equation}
               onChange={(e) => onChangeEqInput(e.target.value)}
               style={{ margin: "10px" }}
             />
