@@ -8,6 +8,7 @@ const math = create(all, {});
 export const useCcalc = () => {
   const [variables, setVariables] = useState([]);
   const [equation, setEquation] = useState("");
+  const [eqMathjax, setEqMathjax] = useState("");
   const [result, setResult] = useState("");
   const [errorW, setError] = useState("");
   const [scope, setScope] = useState({});
@@ -38,7 +39,7 @@ export const useCcalc = () => {
                 alignSelf: "start",
               }}
               onClick={() => {
-                setEquation((prev) => `${prev + variable.name}$ `);
+                setEquation((prev) => `${prev + variable.name}`);
               }}
             >
               {variable.name + " : " + math.typeOf(variable.value)}
@@ -88,6 +89,15 @@ export const useCcalc = () => {
   };
 
   const onChangeEqInput = (value) => {
+    // correctly show variables with mathjax
+    let eq = value;
+    variables.forEach((variable) => {
+      // TODO -> USAR EXPRESIONES REGULARES PARA CAMBIAR CORRECTAMENTE LA VARIABLE
+      eq = eq.replaceAll(` ${variable.name}`, `(${variable.name})`);
+    });
+
+    setEqMathjax(eq);
+
     setEquation(value);
     try {
       setResult(doMath(value, scope));
@@ -97,7 +107,7 @@ export const useCcalc = () => {
     }
   };
 
-  const eqText = [`$$${equation}$$`, `$$= ${result}$$`];
+  const eqText = [`$$${eqMathjax}$$`, `$$= ${result}$$`];
 
   return { submit, vars, eqText, equation, onChangeEqInput, errorW };
 };
