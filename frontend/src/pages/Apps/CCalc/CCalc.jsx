@@ -35,7 +35,7 @@ export default function CCalc() {
               variant="filled"
               color="secondary"
               fullWidth
-              error={errorW != ""}
+              error={errorW !== ""}
               helperText={errorW}
               value={equation}
               onChange={(e) => onChangeEqInput(e.target.value)}
