@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { create, all, string } from "mathjs";
+import { create, all } from "mathjs";
 
 const math = create(all, {});
 
@@ -127,21 +127,11 @@ const doMath = (eq, scope) => {
   return res;
 };
 
-const symbols = ` ?(/|\\+|-|\\*|=|%|\\^|\\||!)? ?`;
-
 const getMathjaxEquation = (value, variables) => {
   let eq = value;
   variables.forEach((variable) => {
-    // TODO -> USAR EXPRESIONES REGULARES PARA CAMBIAR CORRECTAMENTE LA VARIABLE
-    const reg = new RegExp(
-      `${symbols}${variable.name}+(?![a-z])+(?![A-Z])${symbols}`
-    );
-    let matched = eq.match(reg)?.filter((val) => val);
-    console.log(matched);
-    matched?.map((val) => {
-      let newVal = val.replace(variable.name, `(${variable.name})`);
-      eq = eq.replace(val, newVal);
-    });
+    const  reg = new RegExp(`\\b${variable.name}\\b`, "g");
+    eq = eq.replaceAll(reg, `(${variable.name})`);
   });
   return eq;
 };
