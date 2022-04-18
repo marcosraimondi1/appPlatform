@@ -3,7 +3,10 @@ import MathJaxL from "react-mathjax2";
 
 export default function Mathjax({ equation }) {
   return (
-    <div style={{ marginBottom: "20px" }}>
+    <div
+      className="mathjax"
+      style={{ marginBottom: "20px", maxWidth: "90rem", overflowX: "scroll" }}
+    >
       <MathJaxL.Context
         input="ascii"
         onError={(MathJax, error) => {

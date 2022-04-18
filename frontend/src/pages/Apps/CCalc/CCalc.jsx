@@ -25,37 +25,39 @@ export default function CCalc() {
         >
           Instructivo
         </a>
-        <form onSubmit={submit}>
-          <div style={{ margin: "10px" }}>
-            <TextField
-              autoCorrect="false"
-              id="outlined-basic"
-              label="Equation"
-              size="small"
-              variant="filled"
-              color="secondary"
-              fullWidth
-              error={errorW !== ""}
-              helperText={errorW}
-              value={equation}
-              onChange={(e) => onChangeEqInput(e.target.value)}
-              style={{ margin: "10px" }}
-            />
-          </div>
+        <div id="ccalc-sheet">
+          <form onSubmit={submit}>
+            <div style={{ margin: "10px" }}>
+              <TextField
+                autoCorrect="false"
+                id="outlined-basic"
+                label="Equation"
+                size="small"
+                variant="filled"
+                color="secondary"
+                fullWidth
+                error={errorW !== ""}
+                helperText={errorW}
+                value={equation}
+                onChange={(e) => onChangeEqInput(e.target.value)}
+                style={{ margin: "10px" }}
+              />
+            </div>
 
-          <br />
+            <br />
 
-          <div
-            style={{ fontSize: "25px", margin: "10px", alignItems: "center" }}
-          >
-            <MathJax equation={eqText[0]} />
-            <MathJax equation={eqText[1]} />
-          </div>
+            <div
+              style={{ fontSize: "25px", margin: "10px", alignItems: "center" }}
+            >
+              <MathJax equation={eqText[0]} />
+              <MathJax equation={eqText[1]} />
+            </div>
 
-          <button className="btn btn-primary" onClick={submit}>
-            Set Variable
-          </button>
-        </form>
+            <button className="btn btn-primary" onClick={submit}>
+              Set Variable
+            </button>
+          </form>
+        </div>
 
         <br />
         <div
