@@ -60,6 +60,10 @@ export const useCcalc = () => {
 
   const deleteVar = (varName) => {
     setVariables((prev) => prev.filter((v) => v.name !== varName));
+    setScope((prev) => {
+      delete prev[varName];
+      return prev;
+    });
   };
 
   const submit = (event) => {
@@ -130,7 +134,7 @@ const doMath = (eq, scope) => {
 const getMathjaxEquation = (value, variables) => {
   let eq = value;
   variables.forEach((variable) => {
-    const  reg = new RegExp(`\\b${variable.name}\\b`, "g");
+    const reg = new RegExp(`\\b${variable.name}\\b`, "g");
     eq = eq.replaceAll(reg, `(${variable.name})`);
   });
   return eq;
