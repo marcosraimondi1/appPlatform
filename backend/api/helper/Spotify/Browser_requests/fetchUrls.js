@@ -59,6 +59,8 @@ async function scrap(songs, browser) {
     return {
       title: song.name,
       url: getSearchUrl([song.name, song.artists[0].name, song.album.name]),
+      artist: song.artists[0].name,
+      album: song.album.name,
     };
   });
 
@@ -66,7 +68,13 @@ async function scrap(songs, browser) {
   let results = [];
   for (let url of youtube_urls) {
     let videoId = getVideoIdFromUrl(await getUrl(page, url.url));
-    if (videoId) results.push({ title: url.title, videoId });
+    if (videoId)
+      results.push({
+        title: url.title,
+        videoId,
+        album: url.album,
+        artist: url.artist,
+      });
   }
 
   // close page to free resources

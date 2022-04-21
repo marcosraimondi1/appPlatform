@@ -1,6 +1,7 @@
 const youtubeMp3Converter = require("youtube-mp3-converter");
 const fs = require("fs");
 const path = require("path");
+const ffmetadata = require("ffmetadata");
 
 const savePath = path.resolve(__dirname, "./../../../../playlists"); // for linux
 
@@ -8,7 +9,7 @@ const savePath = path.resolve(__dirname, "./../../../../playlists"); // for linu
 
 /**
  * Downloads Many Youtube Audios
- * @param {Array<{title, videoId}>} songs
+ * @param {Array<{title, videoId, album, artist}>} songs
  * @param {string} playlist_name - name of directory
  * @returns {Promise<{ paths: Array<{ name: string, path: string }>, save_path: string}>} - returns array with path to files and the directory where playlist was saved
  */
@@ -36,11 +37,33 @@ async function convert_playlist(songs, playlist_name) {
       let data = youtube_to_mp3(YD, song.videoId, song.title).catch((error) => {
         console.log(error);
       });
-      return data;
+      let metadata = {
+        artist: song.artist,
+        album: song.album,
+        title: song.title,
+        disc: `${playlist_name} - SPD`,
+      };
+      return {data, metadata};
     });
+
+    
+    
+
+
+
     // esperar que se descarguen
     new_paths = await Promise.all(new_paths);
-    paths = paths.concat(new_paths.filter((new_path) => new_path.path)); // guardamos los elementos que se guardaron efectivamente
+    paths = paths.concat(new_paths.filter(({new_path, metadata}) => {
+      try {
+        ffmetadata.write(new_path.path, metadata, function (err) {
+          if (err) console.error("Error writing metadata", err);
+          else console.log("Data written");
+        });
+      } catch (error) {
+        console.log(error)
+      }
+      return new_path.path
+    })); // guardamos los elementos que se guardaron efectivamente
     console.log(`Progress: ${paths.length} / ${TOTAL}`);
   }
 
