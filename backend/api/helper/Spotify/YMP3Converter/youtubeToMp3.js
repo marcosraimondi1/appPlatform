@@ -34,36 +34,28 @@ async function convert_playlist(songs, playlist_name) {
   for (let array of arrays) {
     // cada array descarga sus canciones asincronamente y espera que se terminen de descargar las canciones del array anterior
     let new_paths = array.map((song) => {
-      let data = youtube_to_mp3(YD, song.videoId, song.title).catch((error) => {
-        console.log(error);
-      });
-      let metadata = {
+      const metadata = {
         artist: song.artist,
         album: song.album,
         title: song.title,
         disc: `${playlist_name} - SPD`,
       };
-      return {data, metadata};
+
+      let data = youtube_to_mp3(YD, song.videoId, song.title, metadata).catch(
+        (error) => {
+          console.log(error);
+        }
+      );
+      return data;
     });
-
-    
-    
-
-
 
     // esperar que se descarguen
     new_paths = await Promise.all(new_paths);
-    paths = paths.concat(new_paths.filter(({new_path, metadata}) => {
-      try {
-        ffmetadata.write(new_path.path, metadata, function (err) {
-          if (err) console.error("Error writing metadata", err);
-          else console.log("Data written");
-        });
-      } catch (error) {
-        console.log(error)
-      }
-      return new_path.path
-    })); // guardamos los elementos que se guardaron efectivamente
+    paths = paths.concat(new_paths.filter((data) => data.path)); // guardamos los elementos que se guardaron efectivamente
+    
+    for (let data of paths) {
+      await write_metadata(data.path, data.metadata);
+    }
     console.log(`Progress: ${paths.length} / ${TOTAL}`);
   }
 
@@ -75,9 +67,10 @@ async function convert_playlist(songs, playlist_name) {
  * @param {object} YD - youtubeMp3Converter instance
  * @param {string} videoId
  * @param {string} title
+ * @param {object} metadata - metadata to add to file
  * @returns {Promise<{path:string | null, name:string}>}
  */
-async function youtube_to_mp3(YD, videoId, title) {
+async function youtube_to_mp3(YD, videoId, title, metadata) {
   console.log("Downloading: ", title);
   let name = title.replace(/\W/g, " ");
   // Downloads mp3 and Returns path were it was saved.
@@ -89,7 +82,26 @@ async function youtube_to_mp3(YD, videoId, title) {
   });
 
   console.log("Finished Downloading: ", title);
-  return { name: title + ".mp3", path: song_path };
+  return { name: title + ".mp3", path: song_path, metadata };
+}
+
+async function write_metadata(path, metadata) {
+  return new Promise((resolve, reject) => {
+    try {
+      ffmetadata.write(path, metadata, function (err) {
+        if (err) {
+          console.error("Error writing metadata", err, "\n\n");
+          reject();
+        } else {
+          console.log("Data written");
+          resolve();
+        }
+      });
+    } catch (error) {
+      console.log(error);
+      reject();
+    }
+  });
 }
 
 /**

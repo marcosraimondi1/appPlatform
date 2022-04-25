@@ -219,7 +219,7 @@ router.get("/downloadSongs", async (req, res) => {
     // get video urls with puppeteer Array<{title, videoId}>
     const videoIds = await getUrls(songs);
 
-    console.log(videoIds);  // title, artist, album and videoid
+    // console.log(videoIds);  // title, artist, album and videoid
     if (!videoIds || videoIds.length === 0) throw "failed to get any videoIds";
 
     // await download
