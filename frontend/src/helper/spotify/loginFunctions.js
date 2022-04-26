@@ -5,7 +5,7 @@ export const login = async () => {
     const url = `${API_BASE_URL}/login-spotify`;
     let res = await fetch(url, {
       method: "GET",
-      mode: "cors",
+      mode: "cors"
     });
     if (res.status === 200) {
       let json = await res.json();

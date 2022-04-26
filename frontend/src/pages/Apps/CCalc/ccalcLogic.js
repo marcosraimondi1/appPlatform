@@ -27,7 +27,7 @@ export const useCcalc = () => {
               display: "flex",
               color: "blue",
               flexDirection: "row",
-              justifyContent: "space-between",
+              justifyContent: "space-between"
             }}
           >
             <p
@@ -36,7 +36,7 @@ export const useCcalc = () => {
                 fontSize: "20px",
                 marginLeft: "10px",
                 padding: "3px",
-                alignSelf: "start",
+                alignSelf: "start"
               }}
               onClick={() => {
                 setEquation((prev) => `${prev + variable.name}`);
@@ -121,11 +121,7 @@ const doMath = (eq, scope) => {
     if (e.message.indexOf("Too few arguments in function") > -1) {
       throw e;
     }
-    try {
-      res = math.evaluate(eq, scope);
-    } catch (e) {
-      throw e;
-    }
+    res = math.evaluate(eq, scope);
   }
   if (!res) res = "";
   return res;

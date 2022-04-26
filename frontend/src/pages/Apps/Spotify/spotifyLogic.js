@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import {
   fetchPlaylists,
   fetchPlaylistSongs,
-  downloadPlaylistSongs,
+  downloadPlaylistSongs
 } from "../../../helper/spotify/fetchApi";
 
 export const useSpotify = () => {
@@ -28,7 +28,9 @@ export const useSpotify = () => {
     let data = await fetchPlaylists({ username, redirect_login });
     try {
       setData(Object.values(data));
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
     setLoading(false);
   };
 
@@ -51,13 +53,13 @@ export const useSpotify = () => {
       await fetchPlaylistSongs({
         username,
         playlist_id: selectedPlaylist.id,
-        redirect_login,
+        redirect_login
       })
     );
     let res = await downloadPlaylistSongs({
       username,
       playlist_id: selectedPlaylist.id,
-      redirect_login,
+      redirect_login
     });
     if (res && res.link) {
       // open download tab
@@ -82,6 +84,6 @@ export const useSpotify = () => {
     downloadZip,
     downloadPlaylist,
     selectedPlaylist,
-    setSelectedPlaylist,
+    setSelectedPlaylist
   };
 };

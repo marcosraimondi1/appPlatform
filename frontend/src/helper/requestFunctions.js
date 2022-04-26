@@ -9,16 +9,14 @@ export const fetchData = async (params) => {
   try {
     const res = await fetch(url, {
       method: "GET",
-      mode: "no-cors",
+      mode: "no-cors"
     });
 
     if (res.status === 200) {
       const json = await res.json();
 
       if (json.status === "error") {
-        alert(
-          "Request failed: check that your account is public and the username is correct"
-        );
+        alert("Request failed: check that your account is public and the username is correct");
         return { error: "request failed" };
       }
 

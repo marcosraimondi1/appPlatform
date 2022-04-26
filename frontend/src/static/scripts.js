@@ -3,7 +3,7 @@
  * Copyright 2013-2021 Start Bootstrap
  * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-stylish-portfolio/blob/master/LICENSE)
  */
-const scripts = window.addEventListener("DOMContentLoaded", (event) => {
+const scripts = window.addEventListener("DOMContentLoaded", () => {
   const sidebarWrapper = document.getElementById("sidebar-wrapper");
   let scrollToTopVisible = false;
   // Closes the sidebar menu
@@ -28,12 +28,8 @@ const scripts = window.addEventListener("DOMContentLoaded", (event) => {
   });
 
   function _toggleMenuIcon() {
-    const menuToggleBars = document.body.querySelector(
-      ".menu-toggle > .fa-bars"
-    );
-    const menuToggleTimes = document.body.querySelector(
-      ".menu-toggle > .fa-times"
-    );
+    const menuToggleBars = document.body.querySelector(".menu-toggle > .fa-bars");
+    const menuToggleTimes = document.body.querySelector(".menu-toggle > .fa-times");
     if (menuToggleBars) {
       menuToggleBars.classList.remove("fa-bars");
       menuToggleBars.classList.add("fa-times");
@@ -59,8 +55,6 @@ const scripts = window.addEventListener("DOMContentLoaded", (event) => {
       }
     }
   });
-  //   const scrollToTop = document.body.querySelector(".scroll-to-top");
-  //   scrollToTop.addEventListener("click", topFunction);
 });
 
 function fadeOut(el) {
@@ -84,11 +78,6 @@ function fadeIn(el, display) {
       requestAnimationFrame(fade);
     }
   })();
-}
-
-function topFunction() {
-  document.body.scrollTop = 0;
-  document.documentElement.scrollTop = 0;
 }
 
 export default scripts;

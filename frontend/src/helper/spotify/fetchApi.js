@@ -74,8 +74,8 @@ export const downloadPlaylistSongs = async (params) => {
       method: "GET",
       mode: "cors",
       headers: {
-        "Content-Type": "application/json",
-      },
+        "Content-Type": "application/json"
+      }
     });
     if (res.status === 200) {
       let json = await res.json();
