@@ -11,7 +11,7 @@ sudo rm -r ./backend/ffmpeg
 
 cd frontend
 
-sudo npm install
+sudo npm install --no-audit --no-fund --no-optional
 
 sudo npm run build
 
