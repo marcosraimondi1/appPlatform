@@ -21,8 +21,8 @@ jobs:
      - name: Build
        run: cd frontend && npm run build && cd .. && rm ./backend/build -r &&  mv ./frontend/build ./backend
     
-    #  - name: Lint
-      #  run: ls
+     - name: Lint
+       run: cd frontend && npm run lint && cd ..
     #  - name: Test
       #  run: cd backend && npm run test && cd ..
     
