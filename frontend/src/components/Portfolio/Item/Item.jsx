@@ -1,14 +1,11 @@
+import PropTypes from "prop-types";
+
 import React from "react";
 
 export default function Item(props) {
   return (
     <div className="col-lg-6">
-      <a
-        className="portfolio-item"
-        href={props.href}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+      <a className="portfolio-item" href={props.href} target="_blank" rel="noopener noreferrer">
         <div className="caption">
           <div className="caption-content">
             <div className="h2">{props.caption_title}</div>
@@ -20,3 +17,10 @@ export default function Item(props) {
     </div>
   );
 }
+
+Item.propTypes = {
+  href: PropTypes.string,
+  caption_title: PropTypes.string,
+  caption_description: PropTypes.string,
+  img_source: PropTypes.string
+};

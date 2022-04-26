@@ -36,9 +36,7 @@ export default function Footer() {
               </a>
             </li>
           </ul>
-          <p className="text-muted small mb-0">
-            Copyright &copy; Marcos Raimondi 2022
-          </p>
+          <p className="text-muted small mb-0">Copyright &copy; Marcos Raimondi 2022</p>
         </div>
       </footer>
     </div>

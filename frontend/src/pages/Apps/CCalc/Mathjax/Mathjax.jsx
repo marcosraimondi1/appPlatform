@@ -1,5 +1,6 @@
 import React from "react";
 import MathJaxL from "react-mathjax2";
+import PropTypes from "prop-types";
 
 export default function Mathjax({ equation }) {
   return (
@@ -19,8 +20,8 @@ export default function Mathjax({ equation }) {
           asciimath2jax: {
             useMathMLspacing: true,
             delimiters: [["$$", "$$"]],
-            preview: "none",
-          },
+            preview: "none"
+          }
         }}
       >
         <MathJaxL.Text text={equation} />
@@ -28,3 +29,7 @@ export default function Mathjax({ equation }) {
     </div>
   );
 }
+
+Mathjax.propTypes = {
+  equation: PropTypes.string
+};

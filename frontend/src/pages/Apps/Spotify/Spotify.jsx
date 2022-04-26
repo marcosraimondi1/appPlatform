@@ -22,26 +22,14 @@ export default function Spotify() {
     downloadZip,
     downloadPlaylist,
     selectedPlaylist,
-    setSelectedPlaylist,
+    setSelectedPlaylist
   } = useSpotify();
 
   return (
     <>
-      <Header
-        id="spotify-masthead"
-        title="Spotify PlayList Download"
-        description={username}
-      >
-        <div
-          hidden={data.length > 0 || downloadLink !== "" || loading}
-          style={{ margin: "10px" }}
-        >
-          <Button
-            color="error"
-            variant="contained"
-            size="small"
-            onClick={submit}
-          >
+      <Header id="spotify-masthead" title="Spotify PlayList Download" description={username}>
+        <div hidden={data.length > 0 || downloadLink !== "" || loading} style={{ margin: "10px" }}>
+          <Button color="error" variant="contained" size="small" onClick={submit}>
             Find Playlists
           </Button>
         </div>
@@ -59,7 +47,7 @@ export default function Spotify() {
               style={{
                 display: "flex",
                 flexDirection: "row",
-                justifyContent: "center",
+                justifyContent: "center"
               }}
             >
               <Autocomplete

@@ -1,5 +1,5 @@
 import Item from "./Item/Item";
-
+import PropTypes from "prop-types";
 export default function Portfolio(props) {
   return (
     <div>
@@ -48,3 +48,8 @@ export default function Portfolio(props) {
     </div>
   );
 }
+
+Portfolio.propTypes = {
+  main_title: PropTypes.string,
+  title: PropTypes.string
+};

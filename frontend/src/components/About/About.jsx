@@ -8,10 +8,9 @@ export default function About() {
             <div className="col-lg-10">
               <h2>Something about me</h2>
               <p className="lead mb-5">
-                Computer engineering student interested in all kinds of projects
-                and programming challenges. Lately improving my web development
-                skills, but eager to learn new cool stuff such as artificial
-                intelligence and IoT.
+                Computer engineering student interested in all kinds of projects and programming
+                challenges. Lately improving my web development skills, but eager to learn new cool
+                stuff such as artificial intelligence and IoT.
               </p>
               <a className="btn btn-dark btn-xl" href="#services">
                 My Skills

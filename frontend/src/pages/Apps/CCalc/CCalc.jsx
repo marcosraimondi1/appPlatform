@@ -9,8 +9,7 @@ import Footer from "../../../components/Footer/Footer";
 import { useCcalc } from "./ccalcLogic";
 
 export default function CCalc() {
-  const { submit, vars, eqText, equation, onChangeEqInput, errorW } =
-    useCcalc();
+  const { submit, vars, eqText, equation, onChangeEqInput, errorW } = useCcalc();
 
   return (
     <>
@@ -46,9 +45,7 @@ export default function CCalc() {
 
             <br />
 
-            <div
-              style={{ fontSize: "25px", margin: "10px", alignItems: "center" }}
-            >
+            <div style={{ fontSize: "25px", margin: "10px", alignItems: "center" }}>
               <MathJax equation={eqText[0]} />
               <MathJax equation={eqText[1]} />
             </div>
@@ -65,7 +62,7 @@ export default function CCalc() {
             display: "flex",
             margin: "10px",
             alignItems: "center",
-            flexDirection: "column",
+            flexDirection: "column"
           }}
         >
           {vars.length > 0 ? <p>Variables</p> : <></>}
@@ -75,7 +72,7 @@ export default function CCalc() {
               maxHeight: "150px",
               overflowY: "scroll",
               alignSelf: "center",
-              width: "300px",
+              width: "300px"
             }}
           >
             {vars}

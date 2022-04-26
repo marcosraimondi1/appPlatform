@@ -4,10 +4,7 @@ export default function Services() {
   return (
     <div>
       {/* <!-- Services--> */}
-      <section
-        className="content-section bg-primary text-white text-center"
-        id="services"
-      >
+      <section className="content-section bg-primary text-white text-center" id="services">
         <div className="container px-4 px-lg-5">
           <div className="content-section-heading">
             <h3 className="text-secondary mb-0">Services</h3>
@@ -48,9 +45,7 @@ export default function Services() {
               <h4>
                 <strong>Cloud Services</strong>
               </h4>
-              <p className="text-faded mb-0">
-                Applications up and running on the web
-              </p>
+              <p className="text-faded mb-0">Applications up and running on the web</p>
             </div>
           </div>
         </div>

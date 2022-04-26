@@ -6,16 +6,8 @@ export default function Navigation() {
   return (
     <div>
       {/* <!-- Navigation--> */}
-      <a
-        className="menu-toggle rounded"
-        onClick={() => setOpen((prev) => !prev)}
-        href="#"
-      >
-        {open ? (
-          <FontAwesomeIcon icon="times" />
-        ) : (
-          <FontAwesomeIcon icon="bars" />
-        )}
+      <a className="menu-toggle rounded" onClick={() => setOpen((prev) => !prev)} href="#">
+        {open ? <FontAwesomeIcon icon="times" /> : <FontAwesomeIcon icon="bars" />}
       </a>
       <nav id="sidebar-wrapper">
         <ul className="sidebar-nav">
