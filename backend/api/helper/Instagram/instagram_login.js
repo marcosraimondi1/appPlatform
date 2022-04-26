@@ -13,7 +13,7 @@ const instagram_login = async (page) => {
 
   try {
     await page.goto("https://www.instagram.com/accounts/login/", {
-      waitUntil: "domcontentloaded",
+      waitUntil: "domcontentloaded"
     });
     await page.waitForSelector("[name=username]");
     // Completar formulario

@@ -12,12 +12,7 @@ const getUrls = async (songs) => {
   // launch puppeteer
   const browser = await puppeteer.launch({
     headless: true,
-    args: [
-      "--disable-gpu",
-      "--disable-dev-shm-usage",
-      "--disable-setuid-sandbox",
-      "--no-sandbox",
-    ],
+    args: ["--disable-gpu", "--disable-dev-shm-usage", "--disable-setuid-sandbox", "--no-sandbox"]
   });
 
   // divide songs in smaller arrays for better performance
@@ -32,12 +27,13 @@ const getUrls = async (songs) => {
   // close browser to free resources
   try {
     await browser.close();
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 
   // concatenate all results
   let result = [];
-  for (res of results) result = result.concat(res);
-
+  for (let res of results) result = result.concat(res);
   console.log("Finished Fetching");
 
   return result;
@@ -60,7 +56,7 @@ async function scrap(songs, browser) {
       title: song.name,
       url: getSearchUrl([song.name, song.artists[0].name, song.album.name]),
       artist: song.artists[0].name,
-      album: song.album.name,
+      album: song.album.name
     };
   });
 
@@ -73,14 +69,16 @@ async function scrap(songs, browser) {
         title: url.title,
         videoId,
         album: url.album,
-        artist: url.artist,
+        artist: url.artist
       });
   }
 
   // close page to free resources
   try {
     await page.close();
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 
   return results;
 }
@@ -124,9 +122,7 @@ const getUrl = async (page, url) => {
         let duration = 0;
 
         try {
-          duration = parseInt(
-            document.querySelector("span#text").innerHTML.split(":")[0]
-          );
+          duration = parseInt(document.querySelector("span#text").innerHTML.split(":")[0]);
         } catch (error) {
           duration = 0;
         }
@@ -172,9 +168,7 @@ const getVideoIdFromUrl = (url) => {
  * @returns {Array<Array<>>}
  */
 function divide_in_smaller_arrays(array, N = 5) {
-  return new Array(Math.ceil(array.length / N))
-    .fill()
-    .map((_) => array.splice(0, N));
+  return new Array(Math.ceil(array.length / N)).fill().map(() => array.splice(0, N));
 }
 
 module.exports = { getUrls };

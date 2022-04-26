@@ -23,7 +23,7 @@ function express_config() {
 
   app.use(
     express.urlencoded({
-      extended: true,
+      extended: true
     })
   );
 

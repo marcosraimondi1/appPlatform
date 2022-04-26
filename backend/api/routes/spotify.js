@@ -10,19 +10,13 @@ const {
   fetchAccessToken,
   fetchProfile,
   fetchPlaylists,
-  fetchPlaylistSongs,
+  fetchPlaylistSongs
 } = require("../helper/Spotify/spotifyApi/fetchApi.js");
 
 const { getUrls } = require("../helper/Spotify/Browser_requests/fetchUrls.js");
 const convert_playlist = require("../helper/Spotify/YMP3Converter/youtubeToMp3.js");
-const {
-  getSongsYoutubeVideoIds,
-} = require("../helper/Spotify/youtubeApi/fetchApi.js");
-const {
-  saveUserData,
-  getUserData,
-  zipDirectory,
-} = require("../helper/Spotify/utils");
+// const { getSongsYoutubeVideoIds } = require("../helper/Spotify/youtubeApi/fetchApi.js");
+const { saveUserData, getUserData, zipDirectory } = require("../helper/Spotify/utils");
 
 const client_id = process.env.SPOT_CLIENT_ID;
 const redirect_uri = process.env.SPOT_REDIRECT_URI;
@@ -48,14 +42,14 @@ router.get("/login-spotify", async (req, res) => {
       client_id: client_id,
       scope: scope,
       redirect_uri: redirect_uri,
-      state: state,
+      state: state
     }).toString();
 
     let url = "https://accounts.spotify.com/authorize?" + params;
 
     const toSend = {
       status: "success",
-      url,
+      url
     };
 
     return res.json(toSend);
@@ -95,8 +89,7 @@ router.get("/callback", async (req, res) => {
         // redirect to web app
         let link = "http://localhost:3000/spotify/";
 
-        if (process.env.NODE_ENV === "production")
-          link = base_url + "/spotify/";
+        if (process.env.NODE_ENV === "production") link = base_url + "/spotify/";
 
         return res.redirect(link + username);
       }

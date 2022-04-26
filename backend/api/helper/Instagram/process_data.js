@@ -12,20 +12,16 @@ const process_data = (data) => {
     let no_te_siguen = [];
 
     following.forEach((follow) => {
-      if (followers.includes(follow))
-        te_siguen.push(follow);
-      else
-        no_te_siguen.push(follow);
+      if (followers.includes(follow)) te_siguen.push(follow);
+      else no_te_siguen.push(follow);
     });
 
     // verificamos si seguimos a los que nos siguen
     let los_sigues = [];
     let no_los_sigues = [];
     followers.forEach((follow) => {
-      if (following.includes(follow))
-        los_sigues.push(follow);
-      else
-        no_los_sigues.push(follow);
+      if (following.includes(follow)) los_sigues.push(follow);
+      else no_los_sigues.push(follow);
     });
 
     const seguidores = { los_sigues, no_los_sigues };

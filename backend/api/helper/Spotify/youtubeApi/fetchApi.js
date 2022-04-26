@@ -14,7 +14,7 @@ async function getVideoId(search) {
   try {
     const requestOptions = {
       method: "GET",
-      redirect: "follow",
+      redirect: "follow"
     };
 
     // query params for http request
@@ -66,16 +66,12 @@ async function getSongsYoutubeVideoIds(songs) {
   // get search params
   const search_params = songs.map((song) => ({
     title: song.name,
-    search_param: getSearchUrl([
-      song.name,
-      song.artists[0].name,
-      song.album.name,
-    ]),
+    search_param: getSearchUrl([song.name, song.artists[0].name, song.album.name])
   }));
   // search videos with youtube api and get video ids
   const videoIds = search_params.map(async (search_param) => ({
     title: search_param.title,
-    videoId: await getVideoId(search_param.search_param),
+    videoId: await getVideoId(search_param.search_param)
   }));
 
   return Promise.all(videoIds);

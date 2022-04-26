@@ -22,7 +22,7 @@ async function convert_playlist(songs, playlist_name) {
   try {
     // create directory if it doesnt exist
     fs.mkdirSync(save_path);
-  } catch (error) {}
+  } catch (error) {} // eslint-disable-line
 
   // creates Download function
   const YD = await youtubeMp3Converter(save_path);
@@ -38,21 +38,19 @@ async function convert_playlist(songs, playlist_name) {
         artist: song.artist,
         album: song.album,
         title: song.title,
-        disc: `${playlist_name} - SPD`,
+        disc: `${playlist_name} - SPD`
       };
 
-      let data = youtube_to_mp3(YD, song.videoId, song.title, metadata).catch(
-        (error) => {
-          console.log(error);
-        }
-      );
+      let data = youtube_to_mp3(YD, song.videoId, song.title, metadata).catch((error) => {
+        console.log(error);
+      });
       return data;
     });
 
     // esperar que se descarguen
     new_paths = await Promise.all(new_paths);
     paths = paths.concat(new_paths.filter((data) => data.path)); // guardamos los elementos que se guardaron efectivamente
-    
+
     for (let data of paths) {
       await write_metadata(data.path, data.metadata);
     }
@@ -75,7 +73,7 @@ async function youtube_to_mp3(YD, videoId, title, metadata) {
   let name = title.replace(/\W/g, " ");
   // Downloads mp3 and Returns path were it was saved.
   const song_path = await YD(`https://www.youtube.com/watch?v=${videoId}`, {
-    title: name,
+    title: name
   }).catch((error) => {
     console.log(error);
     return null;
@@ -111,9 +109,7 @@ async function write_metadata(path, metadata) {
  * @returns {Array<Array<>>}
  */
 function divide_in_smaller_arrays(array, N) {
-  return new Array(Math.ceil(array.length / N))
-    .fill()
-    .map((_) => array.splice(0, N));
+  return new Array(Math.ceil(array.length / N)).fill().map(() => array.splice(0, N));
 }
 
 module.exports = convert_playlist;

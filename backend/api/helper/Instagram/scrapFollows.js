@@ -6,9 +6,6 @@ const { process_data } = require("./process_data");
 
 dotenv.config();
 
-
-
-
 /**
  * ---------- FUNCTIONS -----------
  */
@@ -22,12 +19,7 @@ const scrapFollows = async (username) => {
   console.log("Username " + username);
   const browser = await puppeteer.launch({
     headless: true,
-    args: [
-      "--disable-gpu",
-      "--disable-dev-shm-usage",
-      "--disable-setuid-sandbox",
-      "--no-sandbox",
-    ],
+    args: ["--disable-gpu", "--disable-dev-shm-usage", "--disable-setuid-sandbox", "--no-sandbox"]
   });
 
   const page = await browser.newPage();
@@ -74,7 +66,7 @@ const getFollows = async (page, username, target) => {
 
 const navigate = async (page, url) => {
   await page.goto(url, {
-    waitUntil: "domcontentloaded",
+    waitUntil: "domcontentloaded"
   });
   await page.waitForTimeout(1000);
 };

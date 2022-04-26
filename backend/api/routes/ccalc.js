@@ -21,7 +21,7 @@ router.get("/ccalc/information", async (req, res) => {
     console.log(error);
     const toSend = {
       status: "error",
-      error: error,
+      error: error
     };
     res.status(500).json(toSend);
   }

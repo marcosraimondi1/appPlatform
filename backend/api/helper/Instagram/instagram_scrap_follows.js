@@ -57,8 +57,7 @@ const extractInnerHtml = async (items) => {
 };
 
 const scrapNames = async (page, cantidad) => {
-  const selector =
-    "a.notranslate._0imsa > span._7UhW9.xLCgt.qyrsm.KV-D4.se6yk.T0kll"; // selector para los elementos de la lista
+  const selector = "a.notranslate._0imsa > span._7UhW9.xLCgt.qyrsm.KV-D4.se6yk.T0kll"; // selector para los elementos de la lista
 
   await page.waitForTimeout(1500);
 

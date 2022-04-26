@@ -16,8 +16,7 @@ const MAX_DURATION_MS = 10 * 60 * 1000; // 10 minutes
 function generateRandomString(length) {
   try {
     var result = "";
-    var characters =
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     var charactersLength = characters.length;
     for (var i = 0; i < length; i++) {
       result += characters.charAt(Math.floor(Math.random() * charactersLength));
@@ -35,23 +34,20 @@ function generateRandomString(length) {
  * 	@returns {Promise<object>} - users profile
  */
 async function fetchProfile(access_token) {
-  let profile = await fetch(
-    "https://api.spotify.com/v1/me/?fields=display_name, email, id",
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + access_token,
-      },
+  let profile = await fetch("https://api.spotify.com/v1/me/?fields=display_name, email, id", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + access_token
     }
-  );
+  });
   try {
     if (profile.status === 200) {
       profile = await profile.json();
       const data = {
         name: profile.display_name,
         email: profile.email,
-        id: profile.id,
+        id: profile.id
       };
       return data;
     }
@@ -73,18 +69,16 @@ async function fetchAccessToken(code) {
   const body = new URLSearchParams({
     grant_type: "authorization_code",
     code: code,
-    redirect_uri: redirect_uri,
+    redirect_uri: redirect_uri
   });
 
   let response = await fetch("https://accounts.spotify.com/api/token", {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
-      Authorization:
-        "Basic " +
-        Buffer.from(client_id + ":" + client_secret).toString("base64"),
+      Authorization: "Basic " + Buffer.from(client_id + ":" + client_secret).toString("base64")
     },
-    body: body,
+    body: body
   });
 
   if (response.status === 200) {
@@ -111,8 +105,8 @@ async function fetchPlaylists(access_token) {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + access_token,
-    },
+      Authorization: "Bearer " + access_token
+    }
   });
 
   if (playlists.status === 200) playlists = await playlists.json();
@@ -128,7 +122,7 @@ async function fetchPlaylists(access_token) {
     let new_item = {
       name: item.name,
       description: item.description,
-      id: item.id,
+      id: item.id
     };
 
     data[item.id] = new_item;
@@ -147,13 +141,13 @@ async function fetchPlaylistSongs(access_token, playlist_id) {
 
   const headers = {
     "Content-Type": "application/json",
-    Authorization: "Bearer " + access_token,
+    Authorization: "Bearer " + access_token
   };
 
   var requestOptions = {
     method: "GET",
     headers: headers,
-    redirect: "follow",
+    redirect: "follow"
   };
 
   // query, atributos que queremos buscar
@@ -167,12 +161,14 @@ async function fetchPlaylistSongs(access_token, playlist_id) {
     let result = await response.json();
     let data = result.tracks.items;
 
-    data = data.map((item) => {
-      if (item.track.duration_ms > MAX_DURATION_MS ) return null;
-      let { name, id, album, artists } = item.track;
-      return { name, id, album, artists };
-    }).filter((item) => item);
-    
+    data = data
+      .map((item) => {
+        if (item.track.duration_ms > MAX_DURATION_MS) return null;
+        let { name, id, album, artists } = item.track;
+        return { name, id, album, artists };
+      })
+      .filter((item) => item);
+
     return data;
   } catch (error) {
     console.log(error);
@@ -185,5 +181,5 @@ module.exports = {
   fetchProfile,
   fetchAccessToken,
   fetchPlaylists,
-  fetchPlaylistSongs,
+  fetchPlaylistSongs
 };

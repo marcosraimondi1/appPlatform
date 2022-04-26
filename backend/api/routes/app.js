@@ -17,7 +17,7 @@ router.get(allowed_routes, async (req, res) => {
     console.log(error);
     const toSend = {
       status: "error",
-      error: error,
+      error: error
     };
     res.status(500).json(toSend);
   }

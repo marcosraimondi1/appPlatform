@@ -11,4 +11,4 @@ const express_config = require("./express_config.js");
 // EXPRESS
 const app = express_config();
 
-module.exports =  app;
+module.exports = app;
