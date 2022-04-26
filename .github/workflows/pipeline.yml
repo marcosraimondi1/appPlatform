@@ -22,8 +22,11 @@ jobs:
      -  name: Upgrade NPM
         run: npm install -g npm
         
-     - name: Install Dependencies
-       run: cd frontend && npm ci && cd ../backend && npm ci && cd ..
+     - name: Install Frontend Dependencies
+       run: cd frontend && npm ci && cd ..
+
+     - name: Install Backend Dependencies
+       run: cd backend && npm ci && cd ..
      
      - name: Build
        run: cd frontend && npm run build && cd .. && rm ./backend/build -r &&  mv ./frontend/build ./backend
