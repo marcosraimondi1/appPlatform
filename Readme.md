@@ -22,7 +22,7 @@
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
-
+[![Deployment Pipeline](https://github.com/marcosraimondi1/appPlatform/actions/workflows/pipeline.yml/badge.svg)](https://github.com/marcosraimondi1/appPlatform/actions/workflows/pipeline.yml)
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
