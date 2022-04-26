@@ -1,0 +1,28 @@
+name: Deployment Pipeline
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-20.04
+    steps:
+     - uses: actions/checkout@v2 
+       # accion creada por github para copiar el repositorio en la maquina virtual donde se ejecuta la accion
+       with:
+        fetch-depth: 0
+     - uses: actions/setup-node@v2
+       with:
+         node-version: '14'
+     - name: Install Dependencies
+       run: cd frontend && npm run install && cd ../backend && npm run install && cd ..
+     - name: Build
+       run: cd frontend && npm run build && cd .. && rm ./backend/build -r &&  mv ./frontend/build ./backend
+    
+    #  - name: Lint
+      #  run: ls
+    #  - name: Test
+      #  run: cd backend && npm run test && cd ..
+    
