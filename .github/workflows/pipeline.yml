@@ -195,7 +195,7 @@ jobs:
       #     EXCLUDE: "/node_modules/, /ffmpeg/"
 
       - name: run aws container
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v0.1.4
         with:
           host: ${{ secrets.REMOTE_HOST }}
           username: ${{ secrets.REMOTE_USER }}
