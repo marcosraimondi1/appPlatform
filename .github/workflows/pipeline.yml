@@ -144,9 +144,60 @@ jobs:
      - name: Health Check
        run: |
          cd backend && (npm run start&) && cd .. && sleep 10 &&
-         curl -X GET http://localhost:5000/api/health || exit 1 && 
-         ps -ef | grep node | awk '{print $2}' | xargs kill
+         curl -X GET http://localhost:5000/api/health || exit 1
          
 
 # deploy: configurar para cargar a aws automaticamente
-    
+  deploy:
+    if: ${{github.event_name == 'push'}}
+    needs: [test]
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2 
+        # accion creada por github para copiar el repositorio en la maquina virtual donde se ejecuta la accion
+        with:
+         fetch-depth: 0
+      
+      - name: Decrypt Pem
+        run: gpg --quiet --batch --yes --decrypt --passphrase="$KEY_PASSPHRASE" --output ./ServidorWeb.pem keys/ServidorWeb.pem.gpg
+        env:
+          KEY_PASSPHRASE: ${{ secrets.KEY_PASSPHRASE }}
+      
+      - uses: actions/download-artifact@v2
+        with:
+          name: build
+          path: ./backend/build
+      
+      - name: Set Backend Env
+        run: |
+          cat > ./backend/.env <<- EOM
+          NODE_ENV=${{secrets.NODE_ENV}}
+          PORT=${{secrets.PORT}}
+          INSTA_USERNAME=${{secrets.INSTA_USERNAME}}
+          INSTA_PASSWORD=${{secrets.INSTA_PASSWORD}}
+          SPOT_CLIENT_ID=${{secrets.SPOT_CLIENT_ID}}
+          SPOT_CLIENT_SECRET=${{secrets.SPOT_CLIENT_SECRET}}
+          SPOT_REDIRECT_URI=${{secrets.SPOT_REDIRECT_URI}}
+          BASE_URL=${{secrets.BASE_URL}}
+          GAPI_KEY=${{secrets.GAPI_KEY}}
+          REACT_APP_API_BASE_URL=${{secrets.REACT_APP_API_BASE_URL}}
+          EOM
+
+      - name: Deploy to Server
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ./ServidorWeb.pem
+          SOURCE: "./backend"
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          TARGET: ${{ secrets.REMOTE_TARGET }}
+          EXCLUDE: "/node_modules/, /ffmpeg/"
+
+      - name: run aws container
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          password: ./ServidorWeb.pem
+          script: sudo echo "HELLO WORLD!" > $HOME/itsAlive.txt
+          # script: sudo bash $HOME/webserver/scripts/deploy_containers.sh
