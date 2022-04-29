@@ -184,21 +184,21 @@ jobs:
           EOM
       - run: ls
         
-      # - name: Deploy to Server
-      #   uses: easingthemes/ssh-deploy@main
-      #   env:
-      #     SSH_PRIVATE_KEY: ./ServidorWeb.pem
-      #     SOURCE: "./backend"
-      #     REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-      #     REMOTE_USER: ${{ secrets.REMOTE_USER }}
-      #     TARGET: ${{ secrets.REMOTE_TARGET }}
-      #     EXCLUDE: "/node_modules/, /ffmpeg/"
+      - name: Deploy to Server
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}
+          SOURCE: "./backend"
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          TARGET: ${{ secrets.REMOTE_TARGET }}
+          EXCLUDE: "/node_modules/, /ffmpeg/"
 
       - name: run aws container
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.REMOTE_HOST }}
           username: ${{ secrets.REMOTE_USER }}
-          password: ./ServidorWeb.pem
+          password: ${{ secrets.SSH_KEY }}
           script: sudo echo "HELLO WORLD!" > $HOME/itsAlive.txt
           # script: sudo bash $HOME/webserver/scripts/deploy_containers.sh
