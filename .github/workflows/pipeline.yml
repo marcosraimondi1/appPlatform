@@ -85,6 +85,9 @@ jobs:
      - name: Build
        run: cd frontend && npm run build && cd .. && rm ./backend/build -r &&  mv ./frontend/build ./backend
     
+     - name: Delete Unnecesary Files
+       run: sudo rm -r ./backend/ffmpeg
+       
      - uses: actions/upload-artifact@v3
        with:
          name: backend
