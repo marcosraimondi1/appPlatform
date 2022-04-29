@@ -35,7 +35,7 @@ function express_config() {
   app.use("/api", spotifyRouter);
   app.use("/api", ccalcRouter);
   app.use("/api", healthRouter); // check application health status
-  
+
   // in production serve static build
   if (process.env.NODE_ENV === "production") app.use("/", appRouter);
 
