@@ -2,14 +2,20 @@ name: Deployment Pipeline
 
 on:
   push:
-    branches:
-      - master
+    branches: [master]
+  pull_request:
+    branches: [master]
+    types: [opened, synchronize]
 
 jobs:
   deploy:
     runs-on: ubuntu-20.04
     steps:
-     
+     - name: Cancel Previous Redundant Builds
+       # para no tener corriendo dos workflows al mismo tiempo del mismo repositorio
+       uses: styfle/cancel-workflow-action@0.9.1
+       with:
+         access_token: ${{ github.token }}
      - uses: actions/checkout@v2 
        # accion creada por github para copiar el repositorio en la maquina virtual donde se ejecuta la accion
        with:
@@ -21,6 +27,9 @@ jobs:
       
      -  name: Upgrade NPM
         run: npm install -g npm
+     
+     - name: Lint
+       run: cd frontend && npm run lint && cd ../backend && npm run lint && cd ..
         
      - name: Install Frontend Dependencies
        run: cd frontend && npm ci && cd ..
@@ -28,12 +37,38 @@ jobs:
      - name: Install Backend Dependencies
        run: cd backend && npm ci && cd ..
      
+     - name: Set Backend Env
+       run: |
+          cat > ./backend/.env <<- EOM
+          NODE_ENV=${{secrets.NODE_ENV}}
+          PORT=${{secrets.PORT}}
+          INSTA_USERNAME=${{secrets.INSTA_USERNAME}}
+          INSTA_PASSWORD=${{secrets.INSTA_PASSWORD}}
+          SPOT_CLIENT_ID=${{secrets.SPOT_CLIENT_ID}}
+          SPOT_CLIENT_SECRET=${{secrets.SPOT_CLIENT_SECRET}}
+          SPOT_REDIRECT_URI=${{secrets.SPOT_REDIRECT_URI}}
+          BASE_URL=${{secrets.BASE_URL}}
+          GAPI_KEY=${{secrets.GAPI_KEY}}
+          REACT_APP_API_BASE_URL=${{secrets.REACT_APP_API_BASE_URL}}
+          EOM
+
+     - name: Set Frontend Env
+       run: |
+          cat > ./frontend/.env <<- EOM
+          REACT_APP_API_BASE_URL=${{secrets.REACT_APP_API_BASE_URL}}
+          EOM
+          cat ./backend/.env
+
      - name: Build
        run: cd frontend && npm run build && cd .. && rm ./backend/build -r &&  mv ./frontend/build ./backend
-    
-     - name: Lint
-       run: cd frontend && npm run lint && cd ../backend && npm run lint && cd ..
-    
+
+     - name: Health Check
+       run: |
+         cd backend && (npm run start&) && sleep 10 &&
+         curl -X GET http://localhost:5000/api/health && 
+         ps -ef | grep node | awk '{print $2}' | xargs kill
+         cd ..
+
     #  - name: Test
       #  run: cd backend && npm run test && cd ..
     
