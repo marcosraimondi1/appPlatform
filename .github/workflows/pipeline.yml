@@ -182,7 +182,7 @@ jobs:
           GAPI_KEY=${{secrets.GAPI_KEY}}
           REACT_APP_API_BASE_URL=${{secrets.REACT_APP_API_BASE_URL}}
           EOM
-      - run: ls
+      # - run: ls
         
       # - name: Deploy to Server
       #   uses: easingthemes/ssh-deploy@main
@@ -194,11 +194,11 @@ jobs:
       #     TARGET: ${{ secrets.REMOTE_TARGET }}
       #     EXCLUDE: "/node_modules/, /ffmpeg/"
 
-      - name: run aws container
-        uses: appleboy/ssh-action@v0.1.4
-        with:
-          host: ${{ secrets.REMOTE_HOST }}
-          username: ${{ secrets.REMOTE_USER }}
-          password: ${{ secrets.SSH_KEY }}
-          script: sudo echo "HELLO WORLD!" > $HOME/itsAlive.txt
-          # script: sudo bash $HOME/webserver/scripts/deploy_containers.sh
+      # - name: run aws container
+      #   uses: appleboy/ssh-action@v0.1.4
+      #   with:
+      #     host: ${{ secrets.REMOTE_HOST }}
+      #     username: ${{ secrets.REMOTE_USER }}
+      #     password: ${{ secrets.SSH_KEY }}
+      #     script: sudo echo "HELLO WORLD!" > $HOME/itsAlive.txt
+      #     # script: sudo bash $HOME/webserver/scripts/deploy_containers.sh
