@@ -2,6 +2,7 @@ const instagramRouter = require("./routes/instagram.js");
 const spotifyRouter = require("./routes/spotify.js");
 const ccalcRouter = require("./routes/ccalc.js");
 const appRouter = require("./routes/app.js");
+const healthRouter = require("./routes/health.js");
 
 const express = require("express");
 const morgan = require("morgan"); // for console logging info of request
@@ -33,7 +34,8 @@ function express_config() {
   app.use("/api", instagramRouter);
   app.use("/api", spotifyRouter);
   app.use("/api", ccalcRouter);
-
+  app.use("/api", healthRouter); // check application health status
+  
   // in production serve static build
   if (process.env.NODE_ENV === "production") app.use("/", appRouter);
 
