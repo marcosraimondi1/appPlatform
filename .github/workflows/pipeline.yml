@@ -85,38 +85,16 @@ jobs:
      
      - name: Install Frontend Dependencies
        run: cd frontend && npm ci && cd ..
-
-     - name: Install Backend Dependencies
-       run: cd backend && npm ci && cd ..
      
-     - name: Set Backend Env
-       run: |
-          cat > ./backend/.env <<- EOM
-          NODE_ENV=${{secrets.NODE_ENV}}
-          PORT=${{secrets.PORT}}
-          INSTA_USERNAME=${{secrets.INSTA_USERNAME}}
-          INSTA_PASSWORD=${{secrets.INSTA_PASSWORD}}
-          SPOT_CLIENT_ID=${{secrets.SPOT_CLIENT_ID}}
-          SPOT_CLIENT_SECRET=${{secrets.SPOT_CLIENT_SECRET}}
-          SPOT_REDIRECT_URI=${{secrets.SPOT_REDIRECT_URI}}
-          BASE_URL=${{secrets.BASE_URL}}
-          GAPI_KEY=${{secrets.GAPI_KEY}}
-          REACT_APP_API_BASE_URL=${{secrets.REACT_APP_API_BASE_URL}}
-          EOM
-
      - name: Set Frontend Env
        run: |
           cat > ./frontend/.env <<- EOM
           REACT_APP_API_BASE_URL=${{secrets.REACT_APP_API_BASE_URL}}
           EOM
-          cat ./backend/.env
 
      - name: Build
        run: cd frontend && npm run build && cd .. && rm ./backend/build -r &&  mv ./frontend/build ./backend
     
-     - name: Delete Unnecesary Files
-       run: sudo rm -r ./backend/ffmpeg
-       
      - uses: actions/upload-artifact@v3
        with:
          name: build
@@ -145,12 +123,30 @@ jobs:
          name: build
          path: ./backend/build
      
+     - name: Install Backend Dependencies
+       run: cd backend && npm ci && cd ..
+
+     - name: Set Backend Env
+       run: |
+          cat > ./backend/.env <<- EOM
+          NODE_ENV=${{secrets.NODE_ENV}}
+          PORT=${{secrets.PORT}}
+          INSTA_USERNAME=${{secrets.INSTA_USERNAME}}
+          INSTA_PASSWORD=${{secrets.INSTA_PASSWORD}}
+          SPOT_CLIENT_ID=${{secrets.SPOT_CLIENT_ID}}
+          SPOT_CLIENT_SECRET=${{secrets.SPOT_CLIENT_SECRET}}
+          SPOT_REDIRECT_URI=${{secrets.SPOT_REDIRECT_URI}}
+          BASE_URL=${{secrets.BASE_URL}}
+          GAPI_KEY=${{secrets.GAPI_KEY}}
+          REACT_APP_API_BASE_URL=${{secrets.REACT_APP_API_BASE_URL}}
+          EOM
+
      - name: Health Check
        run: |
-         cd backend && (npm run start&) && sleep 10 &&
-         curl -X GET http://localhost:5000/api/health && 
+         cd backend && (npm run start&) && cd .. && sleep 10 &&
+         curl -X GET http://localhost:5000/api/health || exit 1 && 
          ps -ef | grep node | awk '{print $2}' | xargs kill
-         cd ..
+         
 
 # deploy: configurar para cargar a aws automaticamente
     
