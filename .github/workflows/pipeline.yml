@@ -8,7 +8,7 @@ on:
     types: [opened, synchronize]
 
 jobs:
-  deploy:
+  avoid_reduncy:
     runs-on: ubuntu-20.04
     steps:
      - name: Cancel Previous Redundant Builds
@@ -16,6 +16,32 @@ jobs:
        uses: styfle/cancel-workflow-action@0.9.1
        with:
          access_token: ${{ github.token }}
+  lint:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+        with: 
+          fetch-depth: 0
+     
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      
+      -  name: Upgrade NPM
+         run: npm install -g npm
+        
+      - name: Install Frontend Dependencies
+        run: cd frontend && npm ci && cd ..
+
+      - name: Install Backend Dependencies
+        run: cd backend && npm ci && cd ..
+     
+      - name: Lint
+        run: cd frontend && npm run lint && cd ../backend && npm run lint && cd ..
+
+  build:
+    runs-on: ubuntu-20.04
+    steps:
      - uses: actions/checkout@v2 
        # accion creada por github para copiar el repositorio en la maquina virtual donde se ejecuta la accion
        with:
@@ -28,9 +54,6 @@ jobs:
      -  name: Upgrade NPM
         run: npm install -g npm
      
-     - name: Lint
-       run: cd frontend && npm run lint && cd ../backend && npm run lint && cd ..
-        
      - name: Install Frontend Dependencies
        run: cd frontend && npm ci && cd ..
 
@@ -61,7 +84,33 @@ jobs:
 
      - name: Build
        run: cd frontend && npm run build && cd .. && rm ./backend/build -r &&  mv ./frontend/build ./backend
+    
+     - uses: actions/upload-artifact@v3
+       with:
+         name: backend
+         path: backend
+  
+  test:
+    needs: [lint, build]
+    runs-on: ubuntu-20.04
+    steps:
+     - uses: actions/checkout@v2 
+       # accion creada por github para copiar el repositorio en la maquina virtual donde se ejecuta la accion
+       with:
+        fetch-depth: 0
+     
+     - uses: actions/setup-node@v2
+       with:
+         node-version: '14'
+      
+     -  name: Upgrade NPM
+        run: npm install -g npm
 
+     - uses: actions/download-artifact@v2
+       with:
+         name: backend
+         path: backend
+     
      - name: Health Check
        run: |
          cd backend && (npm run start&) && sleep 10 &&
@@ -69,6 +118,5 @@ jobs:
          ps -ef | grep node | awk '{print $2}' | xargs kill
          cd ..
 
-    #  - name: Test
-      #  run: cd backend && npm run test && cd ..
+# deploy: configurar para cargar a aws automaticamente
     
