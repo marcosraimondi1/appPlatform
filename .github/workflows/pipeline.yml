@@ -16,7 +16,8 @@ jobs:
        uses: styfle/cancel-workflow-action@0.9.1
        with:
          access_token: ${{ github.token }}
-  lint:
+  
+  install:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
@@ -25,6 +26,29 @@ jobs:
      
       - uses: actions/setup-node@v2
         with:
+          cache: 'npm' # ahorra tiempo al instalar una sola vez las dependencias
+          node-version: '14'
+      
+      -  name: Upgrade NPM
+         run: npm install -g npm
+        
+      - name: Install Frontend Dependencies
+        run: cd frontend && npm ci && cd ..
+
+      - name: Install Backend Dependencies
+        run: cd backend && npm ci && cd ..
+  
+  lint:
+    needs: [install]
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+        with: 
+          fetch-depth: 0
+     
+      - uses: actions/setup-node@v2
+        with:
+          cache: 'npm'
           node-version: '14'
       
       -  name: Upgrade NPM
@@ -40,6 +64,7 @@ jobs:
         run: cd frontend && npm run lint && cd ../backend && npm run lint && cd ..
 
   build:
+    needs: [install]
     runs-on: ubuntu-20.04
     steps:
      - uses: actions/checkout@v2 
@@ -49,6 +74,7 @@ jobs:
      
      - uses: actions/setup-node@v2
        with:
+         cache: 'npm'
          node-version: '14'
       
      -  name: Upgrade NPM
@@ -90,8 +116,8 @@ jobs:
        
      - uses: actions/upload-artifact@v3
        with:
-         name: backend
-         path: backend
+         name: build
+         path: ./backend/build
   
   test:
     needs: [lint, build]
@@ -104,6 +130,7 @@ jobs:
      
      - uses: actions/setup-node@v2
        with:
+         cache: 'npm'
          node-version: '14'
       
      -  name: Upgrade NPM
@@ -111,8 +138,8 @@ jobs:
 
      - uses: actions/download-artifact@v2
        with:
-         name: backend
-         path: backend
+         name: build
+         path: ./backend/build
      
      - name: Health Check
        run: |
