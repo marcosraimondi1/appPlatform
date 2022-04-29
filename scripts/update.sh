@@ -1,4 +1,5 @@
 # C O N F I G U R A C I O N E S __ D E __ P R O Y E C T O (clonar repo, build front, env variables, run docker-compose)
+cd ..
 
 sudo docker-compose -f docker-compose-prod.yml down
 
