@@ -11,3 +11,4 @@ services:
     image: "marcosraimondi1/multiapp-backend"
     ports:
       - "80:5000"
+      - "443:5000"
