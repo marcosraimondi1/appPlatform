@@ -3,6 +3,7 @@ version: '3'
 # in production, frontend is served from the node image
 services:
   backend:
+    restart: always
     env_file:
         "./backend/.env"
     build:
@@ -11,4 +12,3 @@ services:
     image: "marcosraimondi1/multiapp-backend"
     ports:
       - "80:5000"
-      - "443:5000"
