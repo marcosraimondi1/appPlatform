@@ -12,6 +12,12 @@ export default function Portfolio(props) {
           </div>
           <div className="row gx-0">
             <Item
+              href="http://multiapp.my.to:30"
+              caption_title="Let's DJ"
+              caption_description="Vote for the next song"
+              img_source="assets/img/portfolio/letsdj.jpg"
+            />
+            <Item
               href="/instagram"
               caption_title="Instagram"
               caption_description="Instagram Scraper"
